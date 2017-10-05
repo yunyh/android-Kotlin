@@ -8,5 +8,5 @@ Android Kotlin practice project
 
 
 #### Reference
-syntax: [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html)
-syntax: [google sample](https://github.com/googlesamples/android-architecture-components)
+[Android Architecture Components](https://developer.android.com/topic/libraries/architecture/index.html)   
+[google sample](https://github.com/googlesamples/android-architecture-components)
