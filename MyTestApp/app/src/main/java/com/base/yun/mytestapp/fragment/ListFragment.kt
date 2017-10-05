@@ -8,8 +8,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.base.yun.mytestapp.MainActivity
 import com.base.yun.mytestapp.R
 import com.base.yun.mytestapp.adapter.MyAdapter
+import com.base.yun.mytestapp.model.MyModel
 import com.base.yun.mytestapp.viewmodel.MyViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -28,10 +31,22 @@ class ListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        val adapter = MyAdapter()
+
+        val adapter = MyAdapter(object : MyAdapter.ItemClickCallback {
+            override fun onClick(item: MyModel) {
+                if (activity is MainActivity) {
+                    (activity as MainActivity).showDetailFragment(item)
+                }
+                Toast.makeText(context, "Data : " + item.data, Toast.LENGTH_LONG).show()
+            }
+        })
+
+        //val adapter = MyAdapter(null)
         list.adapter = adapter
         viewModel.dump.observe(this, Observer(adapter::setList))
 
-        Log.d("ListFragment", "" + list.adapter.itemCount )
+        Log.d("ListFragment", "" + list.adapter.itemCount)
     }
+
+
 }

@@ -2,13 +2,15 @@ package com.base.yun.mytestapp
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.base.yun.mytestapp.fragment.DetailFragment
 import com.base.yun.mytestapp.fragment.ListFragment
 import com.base.yun.mytestapp.lifecycle.ActivityLifecycleObserver
+import com.base.yun.mytestapp.model.MyModel
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var lifeCycleObserver : ActivityLifecycleObserver
+    private lateinit var lifeCycleObserver: ActivityLifecycleObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,5 +22,11 @@ class MainActivity : AppCompatActivity() {
 
         lifeCycleObserver = ActivityLifecycleObserver()
         lifecycle.addObserver(lifeCycleObserver)
+    }
+
+    public fun showDetailFragment(item: MyModel) {
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.addToBackStack(null)
+        transaction.replace(main_fragment_container.id, DetailFragment.newInstance(item)).commit()
     }
 }

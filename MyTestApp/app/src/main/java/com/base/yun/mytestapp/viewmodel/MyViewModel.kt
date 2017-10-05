@@ -12,10 +12,18 @@ import com.base.yun.mytestapp.model.MyModel
 /**
  * Created by YounghyubYun on 2017. 10. 4..
  */
+val dumpList = ArrayList<MyModel>()
 
 class MyViewModel(app: Application) : AndroidViewModel(app) {
 
+    init {
+        if (dumpList.isEmpty()) {
+            (0..30).mapTo(dumpList) { MyModel(it, "Data " + it) }
+        }
+    }
+
     companion object {
+
         private const val TAG: String = "MyViewModel"
         private const val PAGE_SIZE = 30
         private const val ENABLE_PLACEHOLDERS = true
@@ -31,34 +39,27 @@ class MyViewModel(app: Application) : AndroidViewModel(app) {
             .setPageSize(PAGE_SIZE).setInitialLoadSizeHint(PAGE_SIZE).setEnablePlaceholders(ENABLE_PLACEHOLDERS).build()!!)
 
     class MyDataSource : KeyedDataSource<Int, MyModel>() {
-        private val list = ArrayList<MyModel>()
-
-        init {
-            (0..1000).mapTo(list) { MyModel(it, "Data " + it) }
-        }
 
         override fun loadBefore(currentBeginKey: Int, pageSize: Int): MutableList<MyModel> {
-            Log.d(TAG, "loadBefore : " + currentBeginKey)
-            Log.d(TAG, "loadBefore : " + pageSize)
+            Log.d(TAG, "loadBefore currentBeginKey: " + currentBeginKey)
             val beforeList = ArrayList<MyModel>()
 
-            repeat(list.size) { index ->
-                if (currentBeginKey > list[index].id) {
-                    beforeList.add(list[index])
+            repeat(dumpList.size) { index ->
+                if (currentBeginKey > dumpList[index].id) {
+                    beforeList.add(dumpList[index])
                 }
             }
             return beforeList
         }
 
         override fun loadAfter(currentEndKey: Int, pageSize: Int): MutableList<MyModel> {
-            Log.d(TAG, "loadAfter : " + currentEndKey)
-            Log.d(TAG, "loadAfter : " + pageSize)
+            Log.d(TAG, "loadAfter currentEndKey: " + currentEndKey)
 
             val afterList = ArrayList<MyModel>()
 
-            repeat(list.size) { index ->
-                if (currentEndKey < list[index].id) {
-                    afterList.add(list[index])
+            repeat(dumpList.size) { index ->
+                if (currentEndKey < dumpList[index].id) {
+                    afterList.add(dumpList[index])
                 }
             }
 
@@ -66,10 +67,7 @@ class MyViewModel(app: Application) : AndroidViewModel(app) {
         }
 
         override fun loadInitial(pageSize: Int): MutableList<MyModel> {
-            // Log.d(TAG, "loadInitial : " + pageSize)
-            val list = ArrayList<MyModel>(pageSize)
-            repeat(pageSize) { index -> list.add(this.list[index]) }
-            return list
+            return dumpList
         }
 
         override fun getKey(item: MyModel): Int {
