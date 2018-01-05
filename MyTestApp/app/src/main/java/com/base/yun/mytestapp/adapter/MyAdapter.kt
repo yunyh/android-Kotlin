@@ -14,7 +14,8 @@ import com.base.yun.mytestapp.model.MyModel
  * Created by YounghyubYun on 2017. 10. 4..
  */
 
-class MyAdapter(private val listener: ItemClickCallback?) : PagedListAdapter<MyModel, MyAdapter.MyViewHolder>(diffCallback) {
+class MyAdapter(private val listener: ItemClickCallback?) :
+        PagedListAdapter<MyModel, MyAdapter.MyViewHolder>(diffCallback) {
 
     companion object {
         private val diffCallback = object : DiffCallback<MyModel>() {

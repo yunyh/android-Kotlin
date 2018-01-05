@@ -23,14 +23,16 @@ import kotlinx.android.synthetic.main.fragment_list.*
 class ListFragment : Fragment() {
 
     private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProviders.of(this).get(MyViewModel::class.java)
+        activity?.let {
+            ViewModelProviders.of(it).get(MyViewModel::class.java)
+        }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater?.inflate(R.layout.fragment_list, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val adapter = MyAdapter(object : MyAdapter.ItemClickCallback {
             override fun onClick(item: MyModel) {
@@ -43,7 +45,9 @@ class ListFragment : Fragment() {
 
         //val adapter = MyAdapter(null)
         list.adapter = adapter
-        viewModel.dump.observe(this, Observer(adapter::setList))
+        viewModel.let {
+            viewModel!!.providerList().observe(this, Observer(adapter::setList))
+        }
 
         Log.d("ListFragment", "" + list.adapter.itemCount)
     }

@@ -18,15 +18,16 @@ class MainActivity : AppCompatActivity() {
 
         val transaction = supportFragmentManager.beginTransaction()
 
-        transaction.replace(main_fragment_container.id, ListFragment()).commit()
+        transaction.replace(main_fragment_container.id, ListFragment(), "list").commit()
 
         lifeCycleObserver = ActivityLifecycleObserver()
         lifecycle.addObserver(lifeCycleObserver)
+       // startActivity(Intent(this@MainActivity, LoginActivity::class.java))
     }
 
-    public fun showDetailFragment(item: MyModel) {
+    fun showDetailFragment(item: MyModel) {
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.addToBackStack(null)
+        transaction.addToBackStack("list")
         transaction.replace(main_fragment_container.id, DetailFragment.newInstance(item)).commit()
     }
 }
