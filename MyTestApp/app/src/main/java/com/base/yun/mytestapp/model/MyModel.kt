@@ -7,7 +7,7 @@ import android.os.Parcelable
  * Created by YounghyubYun on 2017. 10. 5..
  */
 
-data class MyModel(var id: Int, var data: String?) : Parcelable {
+open class MyModel(open var id: Int, open var data: String?) : Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readInt(),
             parcel.readString())

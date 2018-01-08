@@ -15,17 +15,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:screenOrientation="sensorPortrait"
-            android:label="@string/title_activity_login"/>
+            android:label="@string/title_activity_login"
+            android:screenOrientation="sensorPortrait" />
+        <activity
+            android:name=".CreateItemActivity"
+            android:label="@string/title_activity_create"
+            android:parentActivityName=".MainActivity"
+            android:screenOrientation="sensorPortrait" />
     </application>
 
 </manifest>

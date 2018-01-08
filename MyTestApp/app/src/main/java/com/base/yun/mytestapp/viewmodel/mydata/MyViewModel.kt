@@ -12,7 +12,7 @@ import com.base.yun.mytestapp.model.MyModel
  * Created by YounghyubYun on 2017. 10. 4..
  */
 
-class MyViewModel(app: Application) : AndroidViewModel(app) {
+open class MyViewModel(app: Application) : AndroidViewModel(app) {
 
     companion object {
         private const val TAG: String = "MyViewModel"
