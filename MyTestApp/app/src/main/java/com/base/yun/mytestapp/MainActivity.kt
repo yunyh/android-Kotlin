@@ -8,26 +8,45 @@ import com.base.yun.mytestapp.lifecycle.ActivityLifecycleObserver
 import com.base.yun.mytestapp.model.MyModel
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ListFragment.ListFragmentCallback {
 
-    private lateinit var lifeCycleObserver: ActivityLifecycleObserver
+
+    private val lifeCycleObserver by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        ActivityLifecycleObserver()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val transaction = supportFragmentManager.beginTransaction()
+        with(lifecycle) {
+            addObserver(lifeCycleObserver)
+        }
 
-        transaction.replace(main_fragment_container.id, ListFragment(), "list").commit()
-
-        lifeCycleObserver = ActivityLifecycleObserver()
-        lifecycle.addObserver(lifeCycleObserver)
-       // startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+        with(supportFragmentManager) {
+            beginTransaction()
+                    .replace(main_fragment_container.id, ListFragment(), "list")
+                    .commit()
+        }
     }
 
-    fun showDetailFragment(item: MyModel) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.addToBackStack("list")
-        transaction.replace(main_fragment_container.id, DetailFragment.newInstance(item)).commit()
+    override fun onDestroy() {
+        with(lifecycle) {
+            removeObserver(lifeCycleObserver)
+        }
+        super.onDestroy()
+    }
+
+    private fun showDetailFragment(item: MyModel) {
+        with(supportFragmentManager) {
+            beginTransaction()
+                    .addToBackStack("list")
+                    .replace(main_fragment_container.id, DetailFragment.newInstance(item))
+                    .commit()
+        }
+    }
+
+    override fun onItemClickListener(item: MyModel) {
+        showDetailFragment(item)
     }
 }

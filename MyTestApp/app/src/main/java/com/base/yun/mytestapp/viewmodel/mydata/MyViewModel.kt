@@ -1,4 +1,4 @@
-package com.base.yun.mytestapp.viewmodel
+package com.base.yun.mytestapp.viewmodel.mydata
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
@@ -15,17 +15,12 @@ import com.base.yun.mytestapp.model.MyModel
 class MyViewModel(app: Application) : AndroidViewModel(app) {
 
     companion object {
-
         private const val TAG: String = "MyViewModel"
         private const val PAGE_SIZE = 30
-        private const val ENABLE_PLACEHOLDERS = true
     }
 
-    /* val dump = allData().create(0, PagedList.Config.Builder()
-             .setPageSize(PAGE_SIZE).setInitialLoadSizeHint(PAGE_SIZE).setEnablePlaceholders(ENABLE_PLACEHOLDERS).build()!!)
-   */
     @MainThread
     fun providerList(): LiveData<PagedList<MyModel>> {
-        return LivePagedListBuilder(MyDataSourceFactory(), PAGE_SIZE).build();
+        return LivePagedListBuilder(MyDataSourceFactory(), PAGE_SIZE).build()
     }
 }

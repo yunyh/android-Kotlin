@@ -1,4 +1,4 @@
-package com.base.yun.mytestapp.viewmodel
+package com.base.yun.mytestapp.viewmodel.mydata
 
 import android.arch.paging.ItemKeyedDataSource
 import com.base.yun.mytestapp.model.MyModel
