@@ -10,6 +10,7 @@ import com.base.yun.mytestapp.fragment.DetailFragment
 import com.base.yun.mytestapp.fragment.ListFragment
 import com.base.yun.mytestapp.lifecycle.ActivityLifecycleObserver
 import com.base.yun.mytestapp.model.MyModel
+import com.base.yun.mytestapp.provider.ScheduleEntity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), ListFragment.ListFragmentCallback {
@@ -65,11 +66,11 @@ class MainActivity : AppCompatActivity(), ListFragment.ListFragmentCallback {
         return false
     }
 
-    private fun showDetailFragment(item: MyModel) {
+    private fun showDetailFragment(item: ScheduleEntity) {
         with(supportFragmentManager) {
             beginTransaction()
                     .addToBackStack("list")
-                    .replace(main_fragment_container.id, DetailFragment.newInstance(item))
+                    .replace(main_fragment_container.id, DetailFragment.newInstance(MyModel(item.id.toInt(), item.desc)))
                     .commit()
         }
     }
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity(), ListFragment.ListFragmentCallback {
         startActivity(intent)
     }
 
-    override fun onItemClickListener(item: MyModel) {
+    override fun onItemClickListener(item: ScheduleEntity) {
         showDetailFragment(item)
     }
 }

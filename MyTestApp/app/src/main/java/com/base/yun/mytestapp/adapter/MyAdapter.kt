@@ -9,21 +9,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.base.yun.mytestapp.R
 import com.base.yun.mytestapp.model.MyModel
+import com.base.yun.mytestapp.provider.ScheduleEntity
 import kotlinx.android.synthetic.main.list_item.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Created by YounghyubYun on 2017. 10. 4..
  */
 
 class MyAdapter(private var listener: ItemClickCallback) :
-        PagedListAdapter<MyModel, MyAdapter.MyViewHolder>(diffCallback) {
+        PagedListAdapter<ScheduleEntity, MyAdapter.MyViewHolder>(diffCallback) {
 
     companion object {
-        private val diffCallback = object : DiffCallback<MyModel>() {
+        private val diffCallback = object : DiffCallback<ScheduleEntity>() {
 
-            override fun areItemsTheSame(oldItem: MyModel, newItem: MyModel): Boolean = oldItem.id == newItem.id //return
+            override fun areItemsTheSame(oldItem: ScheduleEntity, newItem: ScheduleEntity): Boolean = oldItem.id == newItem.id //return
 
-            override fun areContentsTheSame(oldItem: MyModel, newItem: MyModel): Boolean = oldItem == newItem //return
+            override fun areContentsTheSame(oldItem: ScheduleEntity, newItem: ScheduleEntity): Boolean = oldItem == newItem //return
         }
     }
 
@@ -45,14 +48,15 @@ class MyAdapter(private var listener: ItemClickCallback) :
 
     @FunctionalInterface
     interface ItemClickCallback {
-        fun onClick(view: View, item: MyModel)
+        fun onClick(view: View, item: ScheduleEntity)
     }
 
     inner class MyViewHolder(parent: ViewGroup, @LayoutRes layoutId: Int) :
             RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false)) {
-        fun bind(item: MyModel) {
+        fun bind(item: ScheduleEntity) {
             itemView.item_id.text = item.id.toString()
-            itemView.item_data.text = item.data
+            itemView.item_data.text = item.desc
+            itemView.item_date.text = SimpleDateFormat("yyyyMMdd hh:mm:ss", Locale.KOREA).format(item.date)
         }
     }
 }

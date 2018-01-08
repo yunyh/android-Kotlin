@@ -6,7 +6,7 @@ import android.os.Parcelable
 /**
  * Created by YounghyubYun on 2018. 1. 8..
  */
-data class ScheduleItemModel(override var id: Int, override var data: String?, var dateOfTime: Long, var title: String) : MyModel(id, data) {
+data class ScheduleItemModel(override var id: Int, override var data: String?, private var dateOfTime: Long, private var title: String) : MyModel(id, data) {
     constructor(parcel: Parcel) : this(parcel.readInt(),
             parcel.readString(),
             parcel.readLong(),

@@ -1,6 +1,8 @@
-package com.base.yun.mytestapp.viewmodel.mydata
+package com.base.yun.mytestapp.viewmodel.scheduledata
 
 import android.app.Application
+import com.base.yun.mytestapp.provider.ScheduleEntity
+import com.base.yun.mytestapp.viewmodel.mydata.MyViewModel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,5 +18,11 @@ class ScheduleViewModel(app: Application) : MyViewModel(app) {
 
     fun setCurrentTimeMileSecond(): String {
         return format.format(System.currentTimeMillis())
+    }
+
+    fun createMySchedule(title: String, desc: String, date: Long = System.currentTimeMillis()) {
+        with(scheduleDao) {
+            createSchedule(ScheduleEntity(0, title, desc, date))
+        }
     }
 }

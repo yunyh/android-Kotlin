@@ -12,6 +12,7 @@ import com.base.yun.mytestapp.R
 import com.base.yun.mytestapp.adapter.MyAdapter
 import com.base.yun.mytestapp.base.BaseFragment
 import com.base.yun.mytestapp.model.MyModel
+import com.base.yun.mytestapp.provider.ScheduleEntity
 import com.base.yun.mytestapp.viewmodel.mydata.MyViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
 
@@ -29,18 +30,19 @@ class ListFragment : BaseFragment<MyViewModel>() {
 
     private val myAdapter by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         MyAdapter(object : MyAdapter.ItemClickCallback {
-            override fun onClick(view: View, item: MyModel) {
+            override fun onClick(view: View, item: ScheduleEntity) {
                 with(callback) {
                     onItemClickListener(item)
                 }
-                Toast.makeText(context, "Data : " + item.data, Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Data : " + item.desc, Toast.LENGTH_LONG).show()
             }
         })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        viewModel.providerList().observe(this@ListFragment, Observer(myAdapter::setList))
+//        viewModel.providerList().observe(this@ListFragment, Observer(myAdapter::setList))
+        viewModel.providerSchedule().observe(this@ListFragment, Observer(myAdapter::setList))
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
@@ -70,6 +72,6 @@ class ListFragment : BaseFragment<MyViewModel>() {
     }
 
     interface ListFragmentCallback {
-        fun onItemClickListener(item: MyModel)
+        fun onItemClickListener(item: ScheduleEntity)
     }
 }

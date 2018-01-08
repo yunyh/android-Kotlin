@@ -18,6 +18,7 @@
         completions."
     </string>
     <string name="menu_item_create">Create</string>
+    <string name="menu_item_done">Done</string>
 
     <!-- [View Resource]-->
     <string name="current_time_desc">"Today : %s"</string>

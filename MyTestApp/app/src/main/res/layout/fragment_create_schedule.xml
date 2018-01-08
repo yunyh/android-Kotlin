@@ -16,6 +16,7 @@
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/fragment_create_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Title"
@@ -28,6 +29,7 @@
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/fragment_create_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description"
