@@ -1,9 +1,9 @@
-package com.base.yun.mytestapp.base
+package com.base.yun.mytestapp.fragment.base
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import com.base.yun.mytestapp.viewmodel.mydata.MyViewModel
+import com.base.yun.mytestapp.viewmodel.base.MyViewModel
 
 /**
  * Created by YounghyubYun on 2018. 1. 8..

@@ -10,10 +10,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.base.yun.mytestapp.R
 import com.base.yun.mytestapp.adapter.MyAdapter
-import com.base.yun.mytestapp.base.BaseFragment
-import com.base.yun.mytestapp.model.MyModel
+import com.base.yun.mytestapp.fragment.base.BaseFragment
 import com.base.yun.mytestapp.provider.ScheduleEntity
-import com.base.yun.mytestapp.viewmodel.mydata.MyViewModel
+import com.base.yun.mytestapp.viewmodel.base.MyViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
 
 /**
