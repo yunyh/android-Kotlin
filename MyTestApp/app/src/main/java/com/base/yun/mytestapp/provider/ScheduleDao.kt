@@ -28,8 +28,7 @@ interface ScheduleDao {
     @Delete
     fun deleteSchedule(schedule: ScheduleEntity)
 
-    @Query("SELECT * FROM ${Contracts.Schedule.TABLE_NAME}")
+    @Query("SELECT * FROM ${Contracts.Schedule.TABLE_NAME} ORDER BY ${Contracts.Schedule.COLUMN_DATE} DESC")
     @WorkerThread
     fun getAll(): DataSource.Factory<Int, ScheduleEntity>
-
 }
