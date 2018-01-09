@@ -4,6 +4,7 @@ import android.arch.paging.PagedListAdapter
 import android.support.annotation.LayoutRes
 import android.support.v7.recyclerview.extensions.DiffCallback
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +42,6 @@ class MyAdapter(private var listener: ItemClickCallback) :
                 val holder = MyEditViewHolder(parent, R.layout.list_item_input)
                 holder.itemView.item_add.setOnClickListener { holder.itemView.performClick() }
                 holder.itemView.setOnClickListener { switchAddColunm(it.item_add_desc) }
-
                 holder
             }
             else -> {
@@ -67,6 +67,9 @@ class MyAdapter(private var listener: ItemClickCallback) :
             isFocusable = setter
             isFocusableInTouchMode = setter
             if (setter) {
+                if (TextUtils.isEmpty(text)) {
+                    hint = "input"
+                }
                 requestFocus()
             }
         }
