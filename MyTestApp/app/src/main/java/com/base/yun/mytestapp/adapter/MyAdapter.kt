@@ -36,18 +36,40 @@ class MyAdapter(private var listener: ItemClickCallback) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        val viewHolder = when (viewType) {
-            VIEW_TYPE_ADD -> MyEditViewHolder(parent, R.layout.list_item_input)
-            else -> MyViewHolder(parent, R.layout.list_item)
-        }
-        viewHolder.itemView.setOnClickListener { view ->
-            if (viewHolder.adapterPosition == RecyclerView.NO_POSITION) {
-                return@setOnClickListener
+        return when (viewType) {
+            VIEW_TYPE_ADD -> {
+                val holder = MyEditViewHolder(parent, R.layout.list_item_input)
+                holder.itemView.item_add.setOnClickListener { holder.itemView.performClick() }
+                holder.itemView.setOnClickListener { switchAddColunm(it.item_add_desc) }
+
+                holder
             }
-            getItem(viewHolder.adapterPosition)?.let { listener.onClick(view, it) }
+            else -> {
+                val holder = MyViewHolder(parent, R.layout.list_item)
+                holder.itemView.setOnClickListener { view ->
+                    if (holder.adapterPosition == RecyclerView.NO_POSITION) {
+                        return@setOnClickListener
+                    }
+                    getItem(holder.adapterPosition)?.let { listener.onClick(view, it) }
+                }
+
+                holder
+            }
         }
 
-        return viewHolder
+    }
+
+    private fun switchAddColunm(view: EditText) {
+        with(view) {
+            val setter = !isEnabled
+            isClickable = setter
+            isEnabled = setter
+            isFocusable = setter
+            isFocusableInTouchMode = setter
+            if (setter) {
+                requestFocus()
+            }
+        }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -70,12 +92,18 @@ class MyAdapter(private var listener: ItemClickCallback) :
         fun onClick(view: View, item: ScheduleEntity)
     }
 
+    @FunctionalInterface
+    interface AddItemClickCallback {
+        fun onEditClick(view: View)
+    }
+
     override fun getItemViewType(position: Int): Int {
         return when (position) {
             FIRST_POSITION -> VIEW_TYPE_ADD
             else -> super.getItemViewType(position)
         }
     }
+
 
     open inner class MyViewHolder(parent: ViewGroup, @LayoutRes layoutId: Int) :
             RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false)) {
@@ -91,13 +119,6 @@ class MyAdapter(private var listener: ItemClickCallback) :
     inner class MyEditViewHolder(parent: ViewGroup, @LayoutRes layoutId: Int) :
             RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false)) {
         fun bind() {
-            with(itemView) {
-                itemView.setOnClickListener {
-                    item_add_desc.isEnabled = true
-                    notifyItemChanged(FIRST_POSITION)
-                    return@setOnClickListener
-                }
-            }
         }
     }
 }
