@@ -19,7 +19,7 @@ abstract class MyDataBase : RoomDatabase() {
         fun provider(context: Context): MyDataBase {
             synchronized(this) {
                 if (database == null) {
-                    database = Room.databaseBuilder(context, MyDataBase::class.java, "my_database.db").allowMainThreadQueries().build()
+                    database = Room.databaseBuilder(context, MyDataBase::class.java, "my_database.db").build()
                 }
                 return database!!
             }

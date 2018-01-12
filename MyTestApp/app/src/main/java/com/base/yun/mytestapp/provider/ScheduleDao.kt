@@ -1,7 +1,10 @@
 package com.base.yun.mytestapp.provider
 
+import android.arch.lifecycle.LiveData
+import android.arch.paging.DataSource
 import android.arch.persistence.room.*
-import android.support.annotation.AnyThread
+import android.support.annotation.WorkerThread
+import com.base.yun.mytestapp.model.ScheduleItemModel
 import com.base.yun.mytestapp.viewmodel.scheduledata.ScheduleDataSourceFactory
 
 /**
@@ -12,10 +15,11 @@ import com.base.yun.mytestapp.viewmodel.scheduledata.ScheduleDataSourceFactory
 interface ScheduleDao {
 
     @Insert
+    @WorkerThread
     fun createSchedule(schedule: ScheduleEntity)
 
     @Query("SELECT * FROM ${Contracts.Schedule.TABLE_NAME}")
-    @AnyThread
+    @WorkerThread
     fun selectAll(): List<ScheduleEntity>
 
     @Update
@@ -24,8 +28,7 @@ interface ScheduleDao {
     @Delete
     fun deleteSchedule(schedule: ScheduleEntity)
 
-    @Query("SELECT * FROM ${Contracts.Schedule.TABLE_NAME}")
-    @AnyThread
-    fun getAll(): ScheduleDataSourceFactory
-
+    @Query("SELECT * FROM ${Contracts.Schedule.TABLE_NAME} ORDER BY ${Contracts.Schedule.COLUMN_DATE} DESC")
+    @WorkerThread
+    fun getAll(): DataSource.Factory<Int, ScheduleEntity>
 }

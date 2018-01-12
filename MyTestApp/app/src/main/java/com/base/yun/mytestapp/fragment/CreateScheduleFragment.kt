@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
 import com.base.yun.mytestapp.R
-import com.base.yun.mytestapp.base.BaseFragment
+import com.base.yun.mytestapp.fragment.base.BaseFragment
 import com.base.yun.mytestapp.viewmodel.scheduledata.ScheduleViewModel
 import kotlinx.android.synthetic.main.fragment_create_schedule.*
 

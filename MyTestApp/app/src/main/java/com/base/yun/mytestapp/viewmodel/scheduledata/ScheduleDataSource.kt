@@ -17,7 +17,7 @@ class ScheduleDataSource : ItemKeyedDataSource<Int, ScheduleEntity>() {
     }
 
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<ScheduleEntity>) {
-        callback.onResult(list)
+        //callback.onResult(list)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<ScheduleEntity>) {
