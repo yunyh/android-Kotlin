@@ -9,7 +9,7 @@ import android.content.Context
  * Created by YoungHyup on 2018-01-08.
  */
 
-@Database(entities = arrayOf(ScheduleEntity::class), version = 1)
+@Database(entities = [ScheduleEntity::class], version = 1)
 abstract class MyDataBase : RoomDatabase() {
     abstract fun myScheduleDao(): ScheduleDao
 

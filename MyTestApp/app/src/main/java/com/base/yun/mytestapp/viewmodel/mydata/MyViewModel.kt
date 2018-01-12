@@ -7,7 +7,6 @@ import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import android.support.annotation.MainThread
 import com.base.yun.mytestapp.model.MyModel
-import com.base.yun.mytestapp.model.ScheduleItemModel
 import com.base.yun.mytestapp.provider.MyDataBase
 import com.base.yun.mytestapp.provider.ScheduleEntity
 import com.base.yun.mytestapp.viewmodel.scheduledata.ScheduleDataSourceFactory
@@ -23,7 +22,6 @@ open class MyViewModel(app: Application) : AndroidViewModel(app) {
         private const val PAGE_SIZE = 30
     }
 
-
     protected val scheduleDao by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         MyDataBase.provider(app.applicationContext).myScheduleDao()
     }
@@ -35,6 +33,6 @@ open class MyViewModel(app: Application) : AndroidViewModel(app) {
 
     @MainThread
     fun providerSchedule(): LiveData<PagedList<ScheduleEntity>> {
-        return LivePagedListBuilder(ScheduleDataSourceFactory(scheduleDao.selectAll()), PAGE_SIZE).build()
+        return LivePagedListBuilder(ScheduleDataSourceFactory(), PAGE_SIZE).build()
     }
 }
