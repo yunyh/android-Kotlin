@@ -1,7 +1,9 @@
 package com.base.yun.mytestapp.adapter
 
 import android.arch.paging.PagedListAdapter
+import android.graphics.drawable.Drawable
 import android.support.annotation.LayoutRes
+import android.support.v4.content.ContextCompat
 import android.support.v7.recyclerview.extensions.DiffCallback
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -49,7 +51,7 @@ class MyAdapter(private var listener: ItemClickCallback) :
                     val index = holder.adapterPosition - 1
                     when (index) {
                         RecyclerView.NO_POSITION -> return@setOnClickListener
-                        else -> getItem(holder.adapterPosition)?.let { listener.onClick(view, it) }
+                        else -> getItem(index)?.let { listener.onClick(view, it) }
                     }
                 }
                 holder
@@ -112,22 +114,41 @@ class MyAdapter(private var listener: ItemClickCallback) :
 
     open inner class MyViewHolder(parent: ViewGroup, @LayoutRes layoutId: Int) :
             RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false)) {
+
+        private lateinit var drawableMore: Drawable
+        private lateinit var drawableLess: Drawable
+
         fun bind(item: ScheduleEntity) {
             with(itemView) {
                 item_id.text = item.id.toString()
                 item_data.text = item.title
                 item_date.text = SimpleDateFormat("yyyyMMdd hh:mm:ss", Locale.KOREA).format(item.date)
                 item_more_desc.text = item.desc
-                item_expand_button.setOnClickListener {
-                    with(item_more_desc) {
-                        visibility = when (visibility) {
-                            View.VISIBLE -> View.GONE
-                            else -> View.VISIBLE
+                drawableMore = ContextCompat.getDrawable(context, R.drawable.ic_expand_more_black_24dp)!!
+                drawableLess = ContextCompat.getDrawable(context, R.drawable.ic_expand_less_black_24dp)!!
+                switchExpandMoreButton()
+            }
+        }
+
+        private fun switchExpandMoreButton() {
+            itemView.item_expand_button.setOnClickListener {
+                with(itemView.item_more_desc) {
+                    visibility = when (visibility) {
+                        View.VISIBLE -> {
+                            itemView.item_expand_button.setImageDrawable(drawableMore)
+                            clearFocus()
+                            View.GONE
+                        }
+                        else -> {
+                            itemView.item_expand_button.setImageDrawable(drawableLess)
+                            requestFocus()
+                            View.VISIBLE
                         }
                     }
                 }
             }
         }
+
     }
 
     inner class MyEditViewHolder(parent: ViewGroup, @LayoutRes layoutId: Int) :
