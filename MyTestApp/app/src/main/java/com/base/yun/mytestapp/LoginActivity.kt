@@ -253,6 +253,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         }
 
         override fun onPostExecute(success: Boolean?) {
+            super.onPostExecute(success)
             mAuthTask = null
             showProgress(false)
 

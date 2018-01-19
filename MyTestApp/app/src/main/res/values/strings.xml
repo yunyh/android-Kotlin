@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Test App</string>
+    <string name="app_name">My App</string>
 
     <!-- Activity Title Strings-->
     <string name="title_activity_login">Sign in</string>
