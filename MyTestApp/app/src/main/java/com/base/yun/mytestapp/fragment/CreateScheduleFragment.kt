@@ -1,6 +1,7 @@
 package com.base.yun.mytestapp.fragment
 
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -15,6 +16,7 @@ import com.base.yun.mytestapp.R
 import com.base.yun.mytestapp.fragment.base.BaseFragment
 import com.base.yun.mytestapp.viewmodel.scheduledata.ScheduleViewModel
 import kotlinx.android.synthetic.main.fragment_create_schedule.*
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -28,6 +30,10 @@ class CreateScheduleFragment : BaseFragment<ScheduleViewModel>() {
     private lateinit var callback: CreateScheduleFragmentCallback
 
     private lateinit var scroll: NestedScrollView
+
+    private val datePickerDialog by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        DatePickerDialog.OnDateSetListener { _, year, month, date -> setDate(year, month, date) }
+    }
 
     override fun setViewModel(): Class<ScheduleViewModel> {
         return ScheduleViewModel::class.java
@@ -79,17 +85,17 @@ class CreateScheduleFragment : BaseFragment<ScheduleViewModel>() {
                 if (TextUtils.isEmpty(text)) {
                     return
                 }
-             //   button.visibility = View.VISIBLE
-             //   scroll()
+                //   button.visibility = View.VISIBLE
+                //   scroll()
             }
         })
-        fragment_create_title.setOnTouchListener { view, motionEvent ->
+        fragment_create_title.setOnTouchListener { _, motionEvent ->
             when (motionEvent.action) {
                 MotionEvent.ACTION_UP -> {
-                    scroll()
+                    //  scroll()
                     false
                 }
-                else -> true
+                else -> false
             }
         }
         scroll = fragment_create_scroll_view
@@ -100,37 +106,49 @@ class CreateScheduleFragment : BaseFragment<ScheduleViewModel>() {
                 title.postDelayed({
                     if (title.isFocusable) {
                         if (fragment_create_scroll_view == null) {
-                            Log.d(TAG, " fragment_create_scroll_view == null");
+                            //   Log.d(TAG, " fragment_create_scroll_view == null");
                         } else {
-                            scroll()
+                            //  scroll()
                         }
                     }
                 }, 500L)
             }
         }
 
+        fragment_create_date.setOnClickListener {
+
+            val year = Calendar.getInstance().get(Calendar.YEAR)
+            val month = Calendar.getInstance().get(Calendar.MONTH)
+            val dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+            val datePickerDialog = DatePickerDialog(context, this.datePickerDialog, year, month, dayOfMonth)
+            datePickerDialog.show()
+        }
     }
 
-    fun scroll() {
+    private fun setDate(year: Int, month: Int, dayOfMonth: Int) {
+        fragment_create_date.text = viewModel.setChangedTime(year, month, dayOfMonth)
+    }
 
-        val imm = activity!!
+    private fun scroll() {
+
+        val imm: InputMethodManager? = activity!!
                 .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
-        if (imm!!.isAcceptingText()) {
-            Log.d(TAG, "Software Keyboard was shown")
-            with(scroll) {
-                isSmoothScrollingEnabled = true
-                fragment_create_scroll_view.postDelayed({
-                    with(fragment_create_scroll_view) {
-                        scrollTo(0, fragment_create_test_button.bottom)
-                    }
-                }, 200L)
-
+        imm?.let {
+            if (imm.isAcceptingText) {
+                Log.d(TAG, "Software Keyboard was shown")
+                with(scroll) {
+                    isSmoothScrollingEnabled = true
+                    fragment_create_scroll_view.postDelayed({
+                        with(fragment_create_scroll_view) {
+                            scrollTo(0, fragment_create_test_button.bottom)
+                        }
+                    }, 200L)
+                    return@let
+                }
+            } else {
+                Log.d(TAG, "Software Keyboard was not shown")
             }
-        } else {
-            Log.d(TAG, "Software Keyboard was not shown")
         }
-
     }
 
     override fun onAttach(context: Context?) {

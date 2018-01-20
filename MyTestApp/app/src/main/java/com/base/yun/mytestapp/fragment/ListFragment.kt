@@ -3,7 +3,6 @@ package com.base.yun.mytestapp.fragment
 import android.arch.lifecycle.Observer
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,7 +39,6 @@ class ListFragment : BaseFragment<MyViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-//        viewModel.providerList().observe(this@ListFragment, Observer(myAdapter::setList))
         viewModel.providerSchedule().observe(this@ListFragment, Observer(myAdapter::setList))
         return inflater.inflate(R.layout.fragment_list, container, false)
     }

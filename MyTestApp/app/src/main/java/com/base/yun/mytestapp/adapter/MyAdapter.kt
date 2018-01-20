@@ -14,7 +14,6 @@ import android.widget.EditText
 import com.base.yun.mytestapp.R
 import com.base.yun.mytestapp.provider.ScheduleEntity
 import kotlinx.android.synthetic.main.list_item.view.*
-import kotlinx.android.synthetic.main.list_item_input.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -37,27 +36,16 @@ class MyAdapter(private var listener: ItemClickCallback) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val holder = MyViewHolder(parent, R.layout.list_item)
 
-        return when (viewType) {
-            VIEW_TYPE_ADD -> {
-                val holder = MyEditViewHolder(parent, R.layout.list_item_input)
-                holder.itemView.item_add.setOnClickListener { holder.itemView.performClick() }
-                holder.itemView.setOnClickListener { switchAddColumn(it.item_add_desc) }
-                holder
-            }
-            else -> {
-                val holder = MyViewHolder(parent, R.layout.list_item)
-                holder.itemView.setOnClickListener { view ->
-                    val index = holder.adapterPosition - 1
-                    when (index) {
-                        RecyclerView.NO_POSITION -> return@setOnClickListener
-                        else -> getItem(index)?.let { listener.onClick(view, it) }
-                    }
-                }
-                holder
+        holder.itemView.setOnClickListener { view ->
+            val index = holder.adapterPosition - 1
+            when (index) {
+                RecyclerView.NO_POSITION -> return@setOnClickListener
+                else -> getItem(index)?.let { listener.onClick(view, it) }
             }
         }
-
+        return holder
     }
 
     private fun switchAddColumn(view: EditText) {
@@ -77,19 +65,13 @@ class MyAdapter(private var listener: ItemClickCallback) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder.itemViewType) {
-            VIEW_TYPE_ADD -> {
-                if (holder is MyEditViewHolder) {
-                    holder.bind()
-                }
-            }
-            else -> getItem(position - 1)?.let {
-                if (holder is MyViewHolder) {
-                    holder.bind(it)
-                }
+        getItem(position)?.let {
+            if (holder is MyViewHolder) {
+                holder.bind(it)
             }
         }
     }
+
 
     @FunctionalInterface
     interface ItemClickCallback {
@@ -102,14 +84,15 @@ class MyAdapter(private var listener: ItemClickCallback) :
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (position) {
-            FIRST_POSITION -> VIEW_TYPE_ADD
-            else -> super.getItemViewType(position)
-        }
+        return super.getItemViewType(position)
+        /* return when (position) {
+            // FIRST_POSITION -> VIEW_TYPE_ADD
+             else ->
+         }*/
     }
 
     override fun getItemCount(): Int {
-        return super.getItemCount() + 1
+        return super.getItemCount()
     }
 
     open inner class MyViewHolder(parent: ViewGroup, @LayoutRes layoutId: Int) :
