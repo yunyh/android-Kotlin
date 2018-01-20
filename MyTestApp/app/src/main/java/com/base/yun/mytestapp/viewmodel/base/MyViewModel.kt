@@ -5,12 +5,10 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
-import android.provider.Contacts
 import android.support.annotation.MainThread
 import com.base.yun.mytestapp.model.MyModel
 import com.base.yun.mytestapp.provider.MyDataBase
 import com.base.yun.mytestapp.provider.ScheduleEntity
-import java.util.concurrent.locks.Lock
 
 /**
  * Created by YounghyubYun on 2017. 10. 4..

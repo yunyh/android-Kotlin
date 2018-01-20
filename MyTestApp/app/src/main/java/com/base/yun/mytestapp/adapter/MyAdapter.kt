@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import com.base.yun.mytestapp.R
-import com.base.yun.mytestapp.model.MyModel
 import com.base.yun.mytestapp.provider.ScheduleEntity
 import kotlinx.android.synthetic.main.list_item.view.*
 import kotlinx.android.synthetic.main.list_item_input.view.*
@@ -41,7 +40,7 @@ class MyAdapter(private var listener: ItemClickCallback) :
             VIEW_TYPE_ADD -> {
                 val holder = MyEditViewHolder(parent, R.layout.list_item_input)
                 holder.itemView.item_add.setOnClickListener { holder.itemView.performClick() }
-                holder.itemView.setOnClickListener { switchAddColunm(it.item_add_desc) }
+                holder.itemView.setOnClickListener { switchAddColumn(it.item_add_desc) }
                 holder
             }
             else -> {
@@ -59,7 +58,7 @@ class MyAdapter(private var listener: ItemClickCallback) :
 
     }
 
-    private fun switchAddColunm(view: EditText) {
+    private fun switchAddColumn(view: EditText) {
         with(view) {
             val setter = !isEnabled
             isClickable = setter
@@ -82,7 +81,7 @@ class MyAdapter(private var listener: ItemClickCallback) :
                     holder.bind()
                 }
             }
-            else -> getItem(position)?.let {
+            else -> getItem(position - 1)?.let {
                 if (holder is MyViewHolder) {
                     holder.bind(it)
                 }
@@ -107,6 +106,9 @@ class MyAdapter(private var listener: ItemClickCallback) :
         }
     }
 
+    override fun getItemCount(): Int {
+        return super.getItemCount() + 1
+    }
 
     open inner class MyViewHolder(parent: ViewGroup, @LayoutRes layoutId: Int) :
             RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false)) {

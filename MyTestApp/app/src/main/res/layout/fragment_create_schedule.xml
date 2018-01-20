@@ -1,38 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_create_scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/fragment_vertical_margin">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/fragment_create_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="" />
-
-    <android.support.design.widget.TextInputLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/fragment_vertical_margin">
 
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/fragment_create_title"
-            android:layout_width="match_parent"
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_height="500dp" />
+
+        <TextView
+            android:id="@+id/fragment_create_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="Title"
-            android:inputType="text"
-            android:lines="1" />
-    </android.support.design.widget.TextInputLayout>
+            android:text="" />
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/fragment_create_desc"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Description"
-            android:inputType="textMultiLine" />
-    </android.support.design.widget.TextInputLayout>
-</LinearLayout>
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_create_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title"
+                android:inputType="text"
+                android:lines="1" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/fragment_create_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:inputType="textMultiLine" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/fragment_create_test_button"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:visibility="gone"
+            android:text="Test button" />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
