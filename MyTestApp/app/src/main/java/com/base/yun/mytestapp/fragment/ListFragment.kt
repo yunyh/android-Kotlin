@@ -48,7 +48,7 @@ class ListFragment : BaseFragment<MyViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         list?.let {
-            it.addItemDecoration(object : DividerItemDecoration(context, VERTICAL) {})
+          //  it.addItemDecoration(object : DividerItemDecoration(context, VERTICAL) {})
             it.setHasFixedSize(true)
             it.adapter = myAdapter
         }

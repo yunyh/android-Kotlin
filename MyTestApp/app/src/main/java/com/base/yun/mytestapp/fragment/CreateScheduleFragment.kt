@@ -49,7 +49,7 @@ class CreateScheduleFragment : BaseFragment<ScheduleViewModel>() {
             with(callback) {
                 when (item.itemId) {
                     R.id.create_menu_item_done -> {
-                        viewModel.createMySchedule(fragment_create_date.text.toString(), fragment_create_desc.text.toString())
+                        viewModel.createMySchedule(fragment_create_title.text.toString(), fragment_create_desc.text.toString())
                         onCreateSchedule()
                     }
                 }

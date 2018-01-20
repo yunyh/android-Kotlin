@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.2'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.base.yun.mytestapp"
         minSdkVersion 16
@@ -39,6 +39,7 @@ dependencies {
     implementation "com.android.support:design:$android_support_library_version"
     compile "com.android.support:appcompat-v7:$android_support_library_version"
     compile "com.android.support:recyclerview-v7:$android_support_library_version"
+    compile "com.android.support:cardview-v7:$android_support_library_version"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     implementation "android.arch.lifecycle:extensions:1.0.0"
@@ -48,7 +49,7 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:1.0.0"
 
     testCompile 'junit:junit:4.12'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
     //Google auth
     compile 'com.google.android.gms:play-services-auth:11.8.0'
@@ -63,7 +64,4 @@ dependencies {
     //Third party
     compile "com.squareup.retrofit2:retrofit:$retrofit2_version"
     compile "com.squareup.retrofit2:converter-jackson:$retrofit2_version"
-}
-repositories {
-    mavenCentral()
 }

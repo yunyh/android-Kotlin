@@ -1,7 +1,9 @@
 package com.base.yun.mytestapp.adapter
 
 import android.arch.paging.PagedListAdapter
+import android.graphics.drawable.Drawable
 import android.support.annotation.LayoutRes
+import android.support.v4.content.ContextCompat
 import android.support.v7.recyclerview.extensions.DiffCallback
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -31,7 +33,7 @@ class MyAdapter(private var listener: ItemClickCallback) :
             override fun areContentsTheSame(oldItem: ScheduleEntity, newItem: ScheduleEntity): Boolean = oldItem == newItem //return
         }
         private const val FIRST_POSITION: Int = 0
-        const val VIEW_TYPE_ADD = 1000;
+        const val VIEW_TYPE_ADD = 1000
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -46,12 +48,12 @@ class MyAdapter(private var listener: ItemClickCallback) :
             else -> {
                 val holder = MyViewHolder(parent, R.layout.list_item)
                 holder.itemView.setOnClickListener { view ->
-                    if (holder.adapterPosition == RecyclerView.NO_POSITION) {
-                        return@setOnClickListener
+                    val index = holder.adapterPosition - 1
+                    when (index) {
+                        RecyclerView.NO_POSITION -> return@setOnClickListener
+                        else -> getItem(index)?.let { listener.onClick(view, it) }
                     }
-                    getItem(holder.adapterPosition)?.let { listener.onClick(view, it) }
                 }
-
                 holder
             }
         }
@@ -112,13 +114,41 @@ class MyAdapter(private var listener: ItemClickCallback) :
 
     open inner class MyViewHolder(parent: ViewGroup, @LayoutRes layoutId: Int) :
             RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(layoutId, parent, false)) {
+
+        private lateinit var drawableMore: Drawable
+        private lateinit var drawableLess: Drawable
+
         fun bind(item: ScheduleEntity) {
             with(itemView) {
                 item_id.text = item.id.toString()
-                item_data.text = item.desc
+                item_data.text = item.title
                 item_date.text = SimpleDateFormat("yyyyMMdd hh:mm:ss", Locale.KOREA).format(item.date)
+                item_more_desc.text = item.desc
+                drawableMore = ContextCompat.getDrawable(context, R.drawable.ic_expand_more_black_24dp)!!
+                drawableLess = ContextCompat.getDrawable(context, R.drawable.ic_expand_less_black_24dp)!!
+                switchExpandMoreButton()
             }
         }
+
+        private fun switchExpandMoreButton() {
+            itemView.item_expand_button.setOnClickListener {
+                with(itemView.item_more_desc) {
+                    visibility = when (visibility) {
+                        View.VISIBLE -> {
+                            itemView.item_expand_button.setImageDrawable(drawableMore)
+                            clearFocus()
+                            View.GONE
+                        }
+                        else -> {
+                            itemView.item_expand_button.setImageDrawable(drawableLess)
+                            requestFocus()
+                            View.VISIBLE
+                        }
+                    }
+                }
+            }
+        }
+
     }
 
     inner class MyEditViewHolder(parent: ViewGroup, @LayoutRes layoutId: Int) :
