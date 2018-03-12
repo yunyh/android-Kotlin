@@ -101,7 +101,7 @@ class CreateScheduleFragment : BaseFragment<ScheduleViewModel>() {
         scroll = fragment_create_scroll_view
         val title = fragment_create_title
 
-        title.setOnFocusChangeListener { v, boolean ->
+        title.setOnFocusChangeListener { _, boolean ->
             if (boolean) {
                 title.postDelayed({
                     if (title.isFocusable) {

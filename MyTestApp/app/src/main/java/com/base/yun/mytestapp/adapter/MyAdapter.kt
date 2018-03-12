@@ -4,7 +4,7 @@ import android.arch.paging.PagedListAdapter
 import android.graphics.drawable.Drawable
 import android.support.annotation.LayoutRes
 import android.support.v4.content.ContextCompat
-import android.support.v7.recyclerview.extensions.DiffCallback
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
@@ -25,7 +25,7 @@ class MyAdapter(private var listener: ItemClickCallback) :
         PagedListAdapter<ScheduleEntity, RecyclerView.ViewHolder>(diffCallback) {
 
     companion object {
-        private val diffCallback = object : DiffCallback<ScheduleEntity>() {
+        private val diffCallback = object : DiffUtil.ItemCallback<ScheduleEntity>() {
 
             override fun areItemsTheSame(oldItem: ScheduleEntity, newItem: ScheduleEntity): Boolean = oldItem.id == newItem.id //return
 

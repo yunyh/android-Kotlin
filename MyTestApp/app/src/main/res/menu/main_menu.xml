@@ -3,5 +3,7 @@
     <item
         android:id="@+id/main_menu_item_create"
         android:title="@string/menu_item_create" />
-
+    <item
+        android:id="@+id/main_menu_item_maps"
+        android:title="Maps"/>
 </menu>

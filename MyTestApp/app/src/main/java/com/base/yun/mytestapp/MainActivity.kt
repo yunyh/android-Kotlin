@@ -60,6 +60,9 @@ class MainActivity : AppCompatActivity(), ListFragment.ListFragmentCallback {
                     Log.d(TAG, "Main menu onClick")
                     startCreateItem()
                 }
+                R.id.main_menu_item_maps -> {
+                    startMaps()
+                }
             }
             return true
         }
@@ -77,6 +80,11 @@ class MainActivity : AppCompatActivity(), ListFragment.ListFragmentCallback {
 
     private fun startCreateItem() {
         val intent = Intent(this, CreateItemActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun startMaps() {
+        val intent = Intent(this, MapsActivity::class.java)
         startActivity(intent)
     }
 
