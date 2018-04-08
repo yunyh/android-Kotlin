@@ -39,7 +39,7 @@ class ListFragment : BaseFragment<MyViewModel>() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        viewModel.providerSchedule().observe(this@ListFragment, Observer(myAdapter::setList))
+        viewModel.providerSchedule().observe(this@ListFragment, Observer(myAdapter::submitList))
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
