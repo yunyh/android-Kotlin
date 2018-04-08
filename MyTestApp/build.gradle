@@ -4,7 +4,7 @@ buildscript {
 
     ext.buildVersion = '27.0.3'
 
-    ext.kotlin_version = '1.2.30'
+    ext.kotlin_version = '1.2.31'
     ext.retrofit2_version = '2.3.0'
     ext.android_support_library_version = '27.1.1'
     ext.android_lifecycle_version = '1.1.1'
