@@ -42,6 +42,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
 
     implementation "android.arch.lifecycle:extensions:$android_lifecycle_version"
+    implementation "android.arch.lifecycle:common-java8:$android_lifecycle_version"
 
     implementation "android.arch.paging:runtime:1.0.0-beta1"
     implementation "android.arch.persistence.room:runtime:1.0.0"
