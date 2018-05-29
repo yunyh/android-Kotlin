@@ -12,6 +12,15 @@
         android:background="@color/cardview_light_background"
         app:elevation="0dp">
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/AppTheme.ThemeOverlay">
+
+        </android.support.v7.widget.Toolbar>
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
