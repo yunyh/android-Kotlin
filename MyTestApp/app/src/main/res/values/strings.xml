@@ -22,4 +22,6 @@
 
     <!-- [View Resource]-->
     <string name="current_time_desc">"Today : %s"</string>
+
+    <string name="commit_count">%d commits</string>
 </resources>

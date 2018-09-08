@@ -1,15 +1,11 @@
 package com.base.yun.mytestapp
 
-import android.app.Application
-import android.support.multidex.MultiDex
+import android.support.multidex.MultiDexApplication
 
 /**
  * Created by YoungHyup on 2018-01-08.
  */
 
-class MyApplication : Application() {
-    override fun onCreate() {
-        super.onCreate()
-        MultiDex.install(this)
-    }
+class MyApplication : MultiDexApplication() {
+
 }
