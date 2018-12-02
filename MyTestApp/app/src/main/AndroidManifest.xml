@@ -28,11 +28,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
-            android:screenOrientation="sensorPortrait"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".CreateItemActivity"
             android:label="@string/title_activity_create"
             android:parentActivityName=".MainActivity"

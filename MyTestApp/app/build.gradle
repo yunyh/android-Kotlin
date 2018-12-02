@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 28
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.base.yun.mytestapp"
         minSdkVersion 16
@@ -55,15 +55,7 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:1.1.1"
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    //Google auth
-    implementation 'com.google.android.gms:play-services-auth:16.0.0'
-    implementation 'pub.devrel:easypermissions:0.3.0'
-    implementation('com.google.api-client:google-api-client-android:1.23.0') {
-        exclude group: 'org.apache.httpcomponents'
-    }
-    implementation('com.google.apis:google-api-services-gmail:v1-rev72-1.23.0') {
-        exclude group: 'org.apache.httpcomponents'
-    }
+
     //Third party
     implementation "com.squareup.retrofit2:retrofit:$retrofit2_version"
     implementation "com.squareup.retrofit2:converter-jackson:$retrofit2_version"
