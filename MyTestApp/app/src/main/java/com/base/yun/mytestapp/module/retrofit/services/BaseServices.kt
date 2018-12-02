@@ -1,7 +1,7 @@
-package com.base.yun.mytestapp.moduel.retrofit.services
+package com.base.yun.mytestapp.module.retrofit.services
 
 import com.base.yun.mytestapp.model.RepositoryModel
-import com.base.yun.mytestapp.moduel.retrofit.RetrofitApiWrapper
+import com.base.yun.mytestapp.module.retrofit.RetrofitApiWrapper
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -9,7 +9,7 @@ import retrofit2.http.Path
 interface BaseServices {
 
     companion object {
-        val instance: BaseServices by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
+        val INSTANCE: BaseServices by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
             RetrofitApiWrapper.retrofit.create(BaseServices::class.java)
         }
     }

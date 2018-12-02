@@ -12,7 +12,7 @@
             type="com.base.yun.mytestapp.viewmodel.EventViewModel" />
     </data>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@android:color/white"
@@ -22,11 +22,11 @@
         app:cardUseCompatPadding="true"
         app:contentPadding="8dp">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/img_profile"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
@@ -93,11 +93,11 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txt_commit_count" />
 
-            <android.support.constraint.Group
+            <androidx.constraintlayout.widget.Group
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="@{model.commitData.isEmpty() ? View.GONE : View.VISIBLE}"
                 app:constraint_referenced_ids="txt_commit_count, txt_commit_message, divider" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

@@ -1,7 +1,7 @@
-package com.base.yun.mytestapp.moduel.retrofit.services
+package com.base.yun.mytestapp.module.retrofit.services
 
 import com.base.yun.mytestapp.model.GitHubEventsModel
-import com.base.yun.mytestapp.moduel.retrofit.RetrofitApiWrapper
+import com.base.yun.mytestapp.module.retrofit.RetrofitApiWrapper
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

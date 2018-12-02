@@ -1,4 +1,4 @@
-package com.base.yun.mytestapp.moduel.retrofit
+package com.base.yun.mytestapp.module.retrofit
 
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -9,7 +9,6 @@ import retrofit2.converter.jackson.JacksonConverterFactory
 
 object RetrofitApiWrapper {
     private const val GITHUB_URL = "https://api.github.com"
-
     val retrofit: Retrofit by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         Retrofit.Builder().baseUrl(GITHUB_URL).apply {
             client(OkHttpClient.Builder().apply {

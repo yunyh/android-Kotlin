@@ -1,6 +1,6 @@
 package com.base.yun.mytestapp
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 
 /**
  * Created by YoungHyup on 2018-01-08.

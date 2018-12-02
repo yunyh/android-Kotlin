@@ -8,13 +8,8 @@ import com.base.yun.mytestapp.model.CommitModel
 import com.base.yun.mytestapp.model.GitHubEventsModel
 
 class EventViewModel : ViewModel() {
-    val repoName = ObservableField<String>()
-    val eventType = ObservableField<String>()
-    val actorData = ObservableField<GitHubEventsModel.ActorModel>()
-    val commitData = ObservableArrayList<CommitModel>()
-    val commitCount = ObservableInt()
 
-    object Provider {
+    companion object {
         fun make(event: GitHubEventsModel): EventViewModel =
                 EventViewModel().apply {
                     repoName.set(event.repo?.name)
@@ -29,4 +24,10 @@ class EventViewModel : ViewModel() {
                     }
                 }
     }
+
+    val repoName = ObservableField<String>()
+    val eventType = ObservableField<String>()
+    val actorData = ObservableField<GitHubEventsModel.ActorModel>()
+    val commitData = ObservableArrayList<CommitModel>()
+    val commitCount = ObservableInt()
 }

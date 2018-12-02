@@ -1,50 +1,45 @@
 package com.base.yun.mytestapp
 
-import androidx.lifecycle.ViewModelProviders
-import android.content.Context
 import android.content.Intent
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.ViewModelProviders
 import com.base.yun.mytestapp.databinding.ActivityMainBinding
 import com.base.yun.mytestapp.fragment.ListFragment
 import com.base.yun.mytestapp.lifecycle.ActivityLifecycleObserver
 import com.base.yun.mytestapp.viewmodel.MainActivityViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     companion object {
         val TAG: String? = "MainActivity"
     }
 
-    private val lifeCycleObserver by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-        ActivityLifecycleObserver()
+    private val lifeCycleObserver = ActivityLifecycleObserver()
 
+    private val binding: ActivityMainBinding by lazy {
+        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        (DataBindingUtil.setContentView(this, R.layout.activity_main) as ActivityMainBinding)
-                .model = ViewModelProviders.of(this).get(MainActivityViewModel::class.java).apply {
+        binding.model = ViewModelProviders.of(this).get(MainActivityViewModel::class.java).apply {
             getService()
             getReceivedEvents("yunyh")
         }
-        setSupportActionBar(findViewById(R.id.main_toolbar))
+        setSupportActionBar(binding.mainToolbar)
 
-        supportFragmentManager?.run {
-            beginTransaction().replace(R.id.fragment_container, ListFragment()).commit()
-        }
+        supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, ListFragment())?.commitNow()
+
     }
 
     override fun onDestroy() {
-        with(lifecycle) {
-            removeObserver(lifeCycleObserver)
-        }
+        lifecycle.removeObserver(lifeCycleObserver)
         super.onDestroy()
     }
 

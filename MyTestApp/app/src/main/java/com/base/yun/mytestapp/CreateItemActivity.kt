@@ -1,8 +1,8 @@
 package com.base.yun.mytestapp
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.base.yun.mytestapp.fragment.CreateScheduleFragment
 
 /**
@@ -17,11 +17,9 @@ class CreateItemActivity : AppCompatActivity(), CreateScheduleFragment.CreateSch
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_item)
-        actionBar?.let {
-            with(actionBar) {
-                setDisplayHomeAsUpEnabled(true)
-                setHomeButtonEnabled(true)
-            }
+        actionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setHomeButtonEnabled(true)
         }
     }
 
@@ -31,9 +29,6 @@ class CreateItemActivity : AppCompatActivity(), CreateScheduleFragment.CreateSch
 
     override fun onBackPressed() {
         super.onBackPressed()
-        Log.d(TAG, "onBackPressed")
-        when {
-            currentFocus != null -> currentFocus.clearFocus()
-        }
+        currentFocus?.clearFocus()
     }
 }

@@ -129,7 +129,7 @@ class CreateScheduleFragment : BaseFragment<ScheduleViewModel>() {
         fragment_create_date.text = viewModel.setChangedTime(year, month, dayOfMonth)
     }
 
-    private fun scroll() {
+  /*  private fun scroll() {
 
         val imm: InputMethodManager? = activity!!
                 .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -149,7 +149,7 @@ class CreateScheduleFragment : BaseFragment<ScheduleViewModel>() {
                 Log.d(TAG, "Software Keyboard was not shown")
             }
         }
-    }
+    }*/
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
