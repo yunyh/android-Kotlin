@@ -1,6 +1,6 @@
 package com.base.yun.mytestapp.viewmodel.base
 
-import android.arch.paging.DataSource
+import androidx.paging.DataSource
 import com.base.yun.mytestapp.model.MyModel
 
 /**

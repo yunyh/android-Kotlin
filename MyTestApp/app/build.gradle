@@ -13,7 +13,7 @@ android {
         multiDexEnabled true
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
@@ -39,20 +39,20 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.1-alpha01', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    implementation "com.android.support:support-v4:$android_support_library_version"
-    implementation "com.android.support:design:$android_support_library_version"
-    implementation "com.android.support:appcompat-v7:$android_support_library_version"
-    implementation "com.android.support:recyclerview-v7:$android_support_library_version"
-    implementation "com.android.support:cardview-v7:$android_support_library_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation "android.arch.lifecycle:extensions:$android_lifecycle_version"
-    implementation "android.arch.lifecycle:common-java8:$android_lifecycle_version"
-    implementation 'android.arch.paging:runtime:1.0.1'
-    implementation 'android.arch.persistence.room:runtime:1.1.1'
-    kapt "android.arch.persistence.room:compiler:1.1.1"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.android.material:material:1.1.0-alpha01'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-common-java8:2.0.0'
+    implementation 'androidx.paging:paging-runtime:2.1.0-beta01'
+    implementation 'androidx.room:room-runtime:2.1.0-alpha02'
+    kapt "androidx.room:room-compiler:2.1.0-alpha02"
     testImplementation 'junit:junit:4.12'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 

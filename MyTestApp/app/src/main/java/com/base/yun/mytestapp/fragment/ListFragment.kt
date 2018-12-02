@@ -1,10 +1,10 @@
 package com.base.yun.mytestapp.fragment
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_list.view.*
  * Created by YounghyubYun on 2017. 10. 4..
  */
 
-class ListFragment : Fragment() {
+class ListFragment : androidx.fragment.app.Fragment() {
 
     private val myAdapter: MyAdapter by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         MyAdapter()

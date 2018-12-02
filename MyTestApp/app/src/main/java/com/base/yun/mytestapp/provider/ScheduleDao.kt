@@ -1,9 +1,9 @@
 package com.base.yun.mytestapp.provider
 
-import android.arch.lifecycle.LiveData
-import android.arch.paging.DataSource
-import android.arch.persistence.room.*
-import android.support.annotation.WorkerThread
+import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
+import androidx.room.*
+import androidx.annotation.WorkerThread
 import com.base.yun.mytestapp.model.ScheduleItemModel
 import com.base.yun.mytestapp.viewmodel.scheduledata.ScheduleDataSourceFactory
 

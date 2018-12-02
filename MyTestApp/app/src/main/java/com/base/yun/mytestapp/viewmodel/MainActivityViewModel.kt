@@ -1,8 +1,8 @@
 package com.base.yun.mytestapp.viewmodel
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.databinding.ObservableField
 import android.util.Log
 import com.base.yun.mytestapp.model.GitHubEventsModel
 import com.base.yun.mytestapp.model.RepositoryModel

@@ -4,8 +4,8 @@ package com.base.yun.mytestapp.fragment
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.widget.NestedScrollView
+import androidx.fragment.app.Fragment
+import androidx.core.widget.NestedScrollView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher

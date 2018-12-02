@@ -1,11 +1,11 @@
 package com.base.yun.mytestapp.viewmodel.base
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
-import android.support.annotation.MainThread
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import androidx.annotation.MainThread
 import com.base.yun.mytestapp.model.MyModel
 import com.base.yun.mytestapp.provider.MyDataBase
 import com.base.yun.mytestapp.provider.ScheduleEntity

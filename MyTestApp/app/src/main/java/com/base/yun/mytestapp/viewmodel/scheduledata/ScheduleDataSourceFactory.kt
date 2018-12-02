@@ -1,6 +1,6 @@
 package com.base.yun.mytestapp.viewmodel.scheduledata
 
-import android.arch.paging.DataSource
+import androidx.paging.DataSource
 import com.base.yun.mytestapp.provider.ScheduleDao
 import com.base.yun.mytestapp.provider.ScheduleEntity
 

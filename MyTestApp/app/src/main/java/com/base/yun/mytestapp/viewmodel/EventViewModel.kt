@@ -1,9 +1,9 @@
 package com.base.yun.mytestapp.viewmodel
 
-import android.arch.lifecycle.ViewModel
-import android.databinding.ObservableArrayList
-import android.databinding.ObservableField
-import android.databinding.ObservableInt
+import androidx.lifecycle.ViewModel
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import com.base.yun.mytestapp.model.CommitModel
 import com.base.yun.mytestapp.model.GitHubEventsModel
 

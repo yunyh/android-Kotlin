@@ -2,7 +2,7 @@ package com.base.yun.mytestapp.fragment
 
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +14,12 @@ import kotlinx.android.synthetic.main.fragment_detail.*
 /**
  * A simple [Fragment] subclass.
  */
-class DetailFragment : Fragment() {
+class DetailFragment : androidx.fragment.app.Fragment() {
     private var isEdit = false
 
     companion object {
         private const val PARAM = "param"
-        fun newInstance(item: MyModel): Fragment {
+        fun newInstance(item: MyModel): androidx.fragment.app.Fragment {
             val fragment = DetailFragment()
             val args = Bundle()
             args.putParcelable(PARAM, item)

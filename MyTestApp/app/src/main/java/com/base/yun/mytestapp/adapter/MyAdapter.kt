@@ -1,6 +1,6 @@
 package com.base.yun.mytestapp.adapter
 
-import android.databinding.DataBindingUtil
+import androidx.databinding.DataBindingUtil
 import android.support.v7.recyclerview.extensions.ListAdapter
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView

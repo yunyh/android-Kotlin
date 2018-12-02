@@ -1,8 +1,8 @@
 package com.base.yun.mytestapp.fragment.base
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import com.base.yun.mytestapp.viewmodel.base.MyViewModel
 
 /**
@@ -11,7 +11,7 @@ import com.base.yun.mytestapp.viewmodel.base.MyViewModel
  * (https://developer.android.com/reference/android/arch/lifecycle/package-summary.html)
  */
 
-abstract class BaseFragment<V : MyViewModel> : Fragment() {
+abstract class BaseFragment<V : MyViewModel> : androidx.fragment.app.Fragment() {
     val viewModel by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         viewModelProvider()
     }
