@@ -14,7 +14,7 @@ import com.base.yun.mytestapp.provider.ScheduleEntity
  * Created by YounghyubYun on 2017. 10. 4..
  */
 
-open class MyViewModel(app: Application) : AndroidViewModel(app) {
+open class MyViewModel(private val app: Application) : AndroidViewModel(app) {
 
     companion object {
         private const val TAG: String = "MyViewModel"
@@ -22,7 +22,7 @@ open class MyViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     protected val scheduleDao by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
-        MyDataBase.provider(getApplication<Application>().applicationContext).myScheduleDao()
+        MyDataBase.provider(getApplication()).myScheduleDao()
     }
 
     @MainThread

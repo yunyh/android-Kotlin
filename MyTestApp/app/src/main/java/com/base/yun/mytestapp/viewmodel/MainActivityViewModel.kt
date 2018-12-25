@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.base.yun.mytestapp.BuildConfig
 import com.base.yun.mytestapp.model.GitHubEventsModel
+import com.base.yun.mytestapp.module.retrofit.RetrofitApiWrapper
 import com.base.yun.mytestapp.module.retrofit.wrapper.onError
 import com.base.yun.mytestapp.module.retrofit.wrapper.onFailure
 import com.base.yun.mytestapp.module.retrofit.wrapper.onSuccess
@@ -33,22 +34,12 @@ class MainActivityViewModel : ViewModel(), CoroutineScope {
 
     private val gitRepo = GithubRepository()
 
-    fun getService() = launch(coroutineContext) {
-        /*BaseServices.INSTANCE.getRepos("yunyh", "android-ui").enqueue(object : Callback<RepositoryModel> {
-            override fun onFailure(call: Call<RepositoryModel>, t: Throwable) {
-                if (BuildConfig.DEBUG) {
-                    t.printStackTrace()
-                }
-            }
+    override fun onCleared() {
+        job.cancel()
+        super.onCleared()
+    }
 
-            override fun onResponse(call: Call<RepositoryModel>, response: Response<RepositoryModel>) {
-                response.run {
-                    if (isSuccessful) {
-                        id.set(body()?.id.toString())
-                    }
-                }
-            }
-        })*/
+    fun getService() = launch(coroutineContext) {
         val result = gitRepo.getService()
         result.onSuccess {
             id.set(it.id.toString())
@@ -64,22 +55,7 @@ class MainActivityViewModel : ViewModel(), CoroutineScope {
                 }
     }
 
-    fun getReceivedEvents(username: String) = launch(context = coroutineContext) {
-        /*   GithubUsersServices.instance.getUsersEvents("yunyh").enqueue(object : Callback<List<GitHubEventsModel>> {
-               override fun onFailure(call: Call<List<GitHubEventsModel>>, t: Throwable) {
-                   if (BuildConfig.DEBUG) {
-                       t.printStackTrace()
-                   }
-               }
-
-               override fun onResponse(call: Call<List<GitHubEventsModel>>, response: Response<List<GitHubEventsModel>>) {
-                   response.run {
-                       if (isSuccessful) {
-                           eventsLiveData.postValue(body())
-                       }
-                   }
-               }
-           })*/
+    fun getReceivedEvents(username: String) = launch(coroutineContext) {
         loadingProgressBar.set(true)
         gitRepo.getReceivedEvents(username).onSuccess { eventsLiveData.postValue(it) }.onError { it.printStackTrace() }
         loadingProgressBar.set(false)

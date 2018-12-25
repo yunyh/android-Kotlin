@@ -1,11 +1,11 @@
 package com.base.yun.mytestapp.repositories
 
-import com.base.yun.mytestapp.BuildConfig
 import com.base.yun.mytestapp.model.GitHubEventsModel
 import com.base.yun.mytestapp.model.RepositoryModel
 import com.base.yun.mytestapp.module.retrofit.services.BaseServices
 import com.base.yun.mytestapp.module.retrofit.services.GithubUsersServices
 import com.base.yun.mytestapp.module.retrofit.wrapper.Error
+import com.base.yun.mytestapp.module.retrofit.wrapper.Failure
 import com.base.yun.mytestapp.module.retrofit.wrapper.ResponseResult
 import com.base.yun.mytestapp.module.retrofit.wrapper.Success
 import kotlinx.coroutines.CoroutineScope
@@ -40,7 +40,7 @@ class GithubRepository : CoroutineScope {
     }
 
     suspend fun getReceivedEvents(userName: String): ResponseResult<List<GitHubEventsModel>> = suspendCoroutine {
-        GithubUsersServices.instance.getUsersEvents("yunyh").enqueue(object : Callback<List<GitHubEventsModel>> {
+        GithubUsersServices.instance.getUsersEvents(userName).enqueue(object : Callback<List<GitHubEventsModel>> {
             override fun onFailure(call: Call<List<GitHubEventsModel>>, t: Throwable) {
                 it.resume(Error(t))
             }
@@ -48,6 +48,8 @@ class GithubRepository : CoroutineScope {
             override fun onResponse(call: Call<List<GitHubEventsModel>>, response: Response<List<GitHubEventsModel>>) {
                 if (response.isSuccessful) {
                     response.body()?.let { body -> it.resume(Success(body)) }
+                } else {
+                    it.resume(Failure(response.body()))
                 }
             }
         })

@@ -1,5 +1,6 @@
 package com.base.yun.mytestapp.module.retrofit
 
+import com.base.yun.mytestapp.module.retrofit.interceptor.httpLoggingInterceptor
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.OkHttpClient
@@ -12,8 +13,7 @@ object RetrofitApiWrapper {
     val retrofit: Retrofit by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         Retrofit.Builder().baseUrl(GITHUB_URL).apply {
             client(OkHttpClient.Builder().apply {
-                addInterceptor(HttpLoggingInterceptor()
-                        .setLevel(HttpLoggingInterceptor.Level.BODY))
+                addInterceptor(httpLoggingInterceptor)
             }.build())
             addConverterFactory(
                     JacksonConverterFactory.create(ObjectMapper().apply {

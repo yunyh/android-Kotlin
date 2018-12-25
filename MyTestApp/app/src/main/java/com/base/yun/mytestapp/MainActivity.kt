@@ -65,7 +65,6 @@ class MainActivity : BaseActivity() {
     }
 
     private fun startCreateItem() {
-        val intent = Intent(this, CreateItemActivity::class.java)
-        startActivity(intent)
+        startActivity(Intent(this, CreateItemActivity::class.java))
     }
 }
