@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.younghyupyun.myapplication.base.annotations.ActivityUiType
 import com.example.younghyupyun.myapplication.base.annotations.RequiredViewModel
@@ -36,6 +34,8 @@ abstract class BaseActivity<VM : BaseViewModel, H : IBaseActivityUi> : AppCompat
         }
     }
 
+    private var snackBar: Snackbar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.setIntent(intent)
@@ -44,7 +44,11 @@ abstract class BaseActivity<VM : BaseViewModel, H : IBaseActivityUi> : AppCompat
                 when (event) {
                     is Event.ToastEvent -> Toast.makeText(baseContext, event.message, event.duration).show()
                     is Event.SnackbarEvent -> window?.decorView?.let { view ->
-                        Snackbar.make(view, event.message, event.duration).show()
+                        if (snackBar != null && snackBar!!.isShownOrQueued) {
+                            return@let
+                        }
+                        snackBar = Snackbar.make(view, event.message, event.duration)
+                        snackBar?.show()
                     }
                     is Event.AlertDialogEvent -> AlertDialog.Builder(this@BaseActivity)
                         .setTitle(event.title)

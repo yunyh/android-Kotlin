@@ -14,6 +14,11 @@ abstract class BaseViewModel protected constructor(protected val ui: IBaseActivi
         singleEvent.observe(lifecycleOwner, observer)
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        singleEvent.clear()
+    }
+
     fun setIntent(intent: Intent?) {
 
     }

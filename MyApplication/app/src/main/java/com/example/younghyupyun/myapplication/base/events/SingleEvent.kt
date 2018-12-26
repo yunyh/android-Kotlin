@@ -15,6 +15,11 @@ class SingleEvent {
         this.lifecycleOwner = lifecycleOwner
     }
 
+    fun clear() {
+        lifecycleOwner = null
+        eventObserver = null
+    }
+
     fun showToast(message: String, duration: Int = Toast.LENGTH_LONG) =
         notifyInternal(Event.ToastEvent(message, duration))
 
