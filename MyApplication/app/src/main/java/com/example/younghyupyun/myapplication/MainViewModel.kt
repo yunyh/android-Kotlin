@@ -8,6 +8,9 @@ class MainViewModel(ui: MainActivityUi) : BaseViewModel(ui) {
     fun startUi() {
         ui.showToast("start ui")
     }
+    fun testSnackbar(){
+        singleEvent.showSnackbar("Test show snack bar")
+    }
 
     interface MainActivityUi : IBaseActivityUi {
         fun action()
