@@ -7,7 +7,7 @@ package com.base.yun.mytestapp.provider
 class Contracts {
     object Schedule {
         const val TABLE_NAME = "schedule"
-        const val COLUMN_ID = "id"
+        const val COLUMN_ID = "idx"
         const val COLUMN_TITLE = "title"
         const val COLUMN_DESC = "desc"
         const val COLUMN_DATE = "date"

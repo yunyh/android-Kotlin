@@ -22,7 +22,7 @@ class MyAdapter : ListAdapter<GitHubEventsModel, MyAdapter.MyViewHolder>(diffCal
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<GitHubEventsModel>() {
 
-            override fun areItemsTheSame(oldItem: GitHubEventsModel, newItem: GitHubEventsModel): Boolean = oldItem.id == newItem.id //return
+            override fun areItemsTheSame(oldItem: GitHubEventsModel, newItem: GitHubEventsModel): Boolean = oldItem.idx == newItem.idx //return
 
             override fun areContentsTheSame(oldItem: GitHubEventsModel, newItem: GitHubEventsModel): Boolean = oldItem == newItem //return
         }
@@ -43,7 +43,7 @@ class MyAdapter : ListAdapter<GitHubEventsModel, MyAdapter.MyViewHolder>(diffCal
 
         fun bind(eventsViewModel: EventViewModel) = binding?.let {
             it.model = eventsViewModel
-            Glide.with(itemView.context).load(eventsViewModel.actorData.get()?.avatarUrl).into(it.imgProfile)
+            Glide.with(itemView.context).load(eventsViewModel.actorData.get()?.avatarImageUrl).into(it.imgProfile)
         }
 
     }

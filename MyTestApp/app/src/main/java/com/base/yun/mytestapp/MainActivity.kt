@@ -30,10 +30,8 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding.model = ViewModelProviders.of(this).get(MainActivityViewModel::class.java).apply {
             getService()
-            getReceivedEvents("yunyh")
         }
         setSupportActionBar(binding.mainToolbar)
-
         supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, ListFragment())?.commitNow()
 
     }

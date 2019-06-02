@@ -44,20 +44,22 @@ class MainActivityViewModel : ViewModel(), CoroutineScope {
         result.onSuccess {
             id.set(it.id.toString())
             Log.d(TAG, "${it.id}")
-        }
-                .onFailure {
+        }.onFailure {
 
-                }
-                .onError {
-                    if (BuildConfig.DEBUG) {
-                        it.printStackTrace()
-                    }
-                }
+        }.onError {
+            if (BuildConfig.DEBUG) {
+                it.printStackTrace()
+            }
+        }
     }
 
     fun getReceivedEvents(username: String) = launch(coroutineContext) {
         loadingProgressBar.set(true)
-        gitRepo.getReceivedEvents(username).onSuccess { eventsLiveData.postValue(it) }.onError { it.printStackTrace() }
+        gitRepo.getReceivedEvents(username).onSuccess {
+            Log.d(TAG, "onSuccess")
+            eventsLiveData.postValue(it)
+        }.onError { it.printStackTrace() }
+        Log.d(TAG, "loadingProgressBar")
         loadingProgressBar.set(false)
     }
 }

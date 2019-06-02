@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.base.yun.mytestapp.R
 import com.base.yun.mytestapp.adapter.MyAdapter
 import com.base.yun.mytestapp.viewmodel.MainActivityViewModel
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_list.view.*
 
 /**
@@ -25,14 +26,16 @@ class ListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
 
+        return inflater.inflate(R.layout.fragment_list, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        repo_list.adapter = myAdapter
         activity?.let {
             ViewModelProviders.of(it).get(MainActivityViewModel::class.java).apply {
                 eventsLiveData.observe(this@ListFragment, Observer(myAdapter::submitList))
-            }
-        }
-
-        return inflater.inflate(R.layout.fragment_list, container, false).apply {
-            this.list.adapter = myAdapter
+            }.getReceivedEvents("yunyh")
         }
     }
 }
