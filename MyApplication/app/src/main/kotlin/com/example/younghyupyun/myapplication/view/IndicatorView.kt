@@ -50,17 +50,31 @@ class IndicatorView @JvmOverloads constructor(
         get() = (indicatorDrawableHeight - indicatorDrawableSmallHeight) / 2
 
     private var completeVisiblePosition = 0
+    private var previousVisiblePosition = 0
 
     private val indicatorGap
         get() = indicatorDrawableHeight / 2
 
+    private var swipeDirection: Int = 1
+    private var currentDirection: Int = 1
+
     private val scrollListener by lazy {
         object : RecyclerView.OnScrollListener() {
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                swipeDirection = when {
+                    dx > 0 -> 1
+                    dx < 0 -> -1
+                    else -> 1
+                }
+            }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     (recyclerView.layoutManager as? LinearLayoutManager)?.apply {
+                        previousVisiblePosition = completeVisiblePosition
                         completeVisiblePosition = findFirstCompletelyVisibleItemPosition()
                     }
                     invalidate()
@@ -116,24 +130,17 @@ class IndicatorView @JvmOverloads constructor(
 
         val offset = 60
         var left = when {
-            completeVisiblePosition == OFFSET -> indicatorGap + offset
-            completeVisiblePosition < OFFSET -> indicatorGap * 2 + offset
+            ((completeVisiblePosition < OFFSET).and(swipeDirection >= 1))
+                .or(completeVisiblePosition == 0) -> indicatorDrawableSmallHeight + indicatorGap + indicatorDrawableMediumHeight + indicatorGap + offset
+
+            (completeVisiblePosition == OFFSET)
+                .or((swipeDirection <= -1).and(completeVisiblePosition < OFFSET)) -> indicatorDrawableSmallHeight + indicatorGap + offset
+
             else -> offset
         }
 
         repeat((0 until itemCount).count()) {
-            val drawIndicator = getIndicator(it) ?: return@repeat/*when {
-                it == completeVisiblePosition -> indicatorDrawableSelected
-                it == completeVisiblePosition - OFFSET -> indicatorDrawableMedium
-                it == completeVisiblePosition - OFFSET - 1 -> indicatorDrawableSmall
-                it <= (completeVisiblePosition - OFFSET - 2) -> return@repeat
-
-                it == completeVisiblePosition + OFFSET -> indicatorDrawableMedium
-                it == completeVisiblePosition + OFFSET + 1 -> indicatorDrawableSmall
-                it >= (completeVisiblePosition + OFFSET + 2) -> return@repeat
-                else -> indicatorDrawable
-            }*/
-
+            val drawIndicator = getIndicator(it) ?: return@repeat
             val height = drawIndicator.intrinsicHeight
             val width = drawIndicator.intrinsicWidth
 
@@ -177,35 +184,79 @@ class IndicatorView @JvmOverloads constructor(
             drawIndicator.draw(canvas)
             left += width + indicatorGap
         }
+        currentDirection = swipeDirection
+    }
+
+    private fun lastedDrawable(drawIndex: Int): Drawable? = when {
+        drawIndex == completeVisiblePosition -> indicatorDrawableSelected
+        drawIndex == itemCount - OFFSET - 2 -> indicatorDrawableMedium
+        drawIndex == itemCount - OFFSET - 3 -> indicatorDrawableSmall
+        drawIndex <= itemCount - OFFSET - 1 -> null
+        else -> indicatorDrawable
     }
 
     private fun getIndicator(drawIndex: Int): Drawable? {
-        return when {
-            completeVisiblePosition < OFFSET -> when {
-                drawIndex == completeVisiblePosition -> indicatorDrawableSelected
-                drawIndex == OFFSET -> indicatorDrawableMedium
-                drawIndex == OFFSET + 1 -> indicatorDrawableSmall
-                drawIndex >= (OFFSET + 2) -> return null
-                else -> indicatorDrawable
-            }
-            completeVisiblePosition == OFFSET -> when {
-                drawIndex == completeVisiblePosition -> indicatorDrawableSelected
-                drawIndex == OFFSET + 1 -> indicatorDrawableMedium
-                drawIndex == OFFSET + 2 -> indicatorDrawableSmall
-                drawIndex == 0 -> indicatorDrawableMedium
-                drawIndex >= (OFFSET + 3) -> return null
-                else -> indicatorDrawable
-            }
-            else -> when {
-                drawIndex == completeVisiblePosition -> indicatorDrawableSelected
-                drawIndex == completeVisiblePosition - OFFSET -> indicatorDrawableMedium
-                drawIndex == completeVisiblePosition - OFFSET - 1 -> indicatorDrawableSmall
-                drawIndex <= (completeVisiblePosition - OFFSET - 2) -> return null
 
-                drawIndex == completeVisiblePosition + OFFSET - 2 -> indicatorDrawableMedium
-                drawIndex == completeVisiblePosition + OFFSET - 1 -> indicatorDrawableSmall
-                drawIndex >= (completeVisiblePosition + OFFSET) -> return null
-                else -> indicatorDrawable
+        if (swipeDirection < 0) {
+            return when {
+                completeVisiblePosition == 0 -> when {
+                    drawIndex == completeVisiblePosition -> indicatorDrawableSelected
+                    drawIndex == OFFSET -> indicatorDrawableMedium
+                    drawIndex == OFFSET + 1 -> indicatorDrawableSmall
+                    drawIndex >= (OFFSET + 2) -> null
+                    else -> indicatorDrawable
+                }
+                completeVisiblePosition < OFFSET -> when {
+                    drawIndex == completeVisiblePosition -> indicatorDrawableSelected
+                    drawIndex == OFFSET + 1 -> indicatorDrawableMedium
+                    drawIndex == OFFSET + 2 -> indicatorDrawableSmall
+                    drawIndex == 0 -> indicatorDrawableMedium
+                    drawIndex >= (OFFSET + 3) -> return null
+                    else -> indicatorDrawable
+                }
+                completeVisiblePosition >= itemCount - OFFSET -> lastedDrawable(drawIndex)
+
+                else -> when {
+                    drawIndex == completeVisiblePosition - if (swipeDirection != currentDirection) 1 else 2 -> indicatorDrawableSelected
+                    drawIndex == completeVisiblePosition - OFFSET -> indicatorDrawableMedium
+                    drawIndex == completeVisiblePosition - OFFSET - 1 -> indicatorDrawableSmall
+                    drawIndex <= (completeVisiblePosition - OFFSET - 2) -> return null
+                    drawIndex == completeVisiblePosition + OFFSET - 2 -> indicatorDrawableMedium
+                    drawIndex == completeVisiblePosition + OFFSET - 1 -> indicatorDrawableSmall
+                    drawIndex >= (completeVisiblePosition + OFFSET) -> return null
+                    else -> indicatorDrawable
+                }
+            }
+        } else {
+            if (previousVisiblePosition >= itemCount - OFFSET) {
+                return lastedDrawable(drawIndex)
+            }
+            return when {
+                completeVisiblePosition < OFFSET -> when {
+                    drawIndex == completeVisiblePosition -> indicatorDrawableSelected
+                    drawIndex == OFFSET -> indicatorDrawableMedium
+                    drawIndex == OFFSET + 1 -> indicatorDrawableSmall
+                    drawIndex >= (OFFSET + 2) -> return null
+                    else -> indicatorDrawable
+                }
+                (completeVisiblePosition == OFFSET) -> when {
+                    drawIndex == completeVisiblePosition -> indicatorDrawableSelected
+                    drawIndex == OFFSET + 1 -> indicatorDrawableMedium
+                    drawIndex == OFFSET + 2 -> indicatorDrawableSmall
+                    drawIndex == 0 -> indicatorDrawableMedium
+                    drawIndex >= (OFFSET + 3) -> return null
+                    else -> indicatorDrawable
+                }
+                else -> when {
+                    drawIndex == completeVisiblePosition -> indicatorDrawableSelected
+                    drawIndex == completeVisiblePosition - OFFSET -> indicatorDrawableMedium
+                    drawIndex == completeVisiblePosition - OFFSET - 1 -> indicatorDrawableSmall
+                    drawIndex <= (completeVisiblePosition - OFFSET - 2) -> return null
+                    drawIndex == completeVisiblePosition + OFFSET - 2 -> indicatorDrawableMedium
+                    drawIndex == completeVisiblePosition + OFFSET - 1 -> indicatorDrawableSmall
+                    drawIndex >= (completeVisiblePosition + OFFSET) -> return null
+                    else -> indicatorDrawable
+                }
             }
         }
     }

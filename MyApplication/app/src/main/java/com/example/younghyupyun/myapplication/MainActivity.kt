@@ -48,7 +48,7 @@ class BaseRecyclerView : RecyclerView.Adapter<BaseRecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = 10
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.textView.text = "TextView $position"
+        holder.textView.text = "TextView ${position + 1}"
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
