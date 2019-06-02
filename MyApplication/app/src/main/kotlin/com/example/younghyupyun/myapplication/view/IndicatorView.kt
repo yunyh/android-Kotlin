@@ -51,6 +51,9 @@ class IndicatorView @JvmOverloads constructor(
 
     private var completeVisiblePosition = 0
 
+    private val indicatorGap
+        get() = indicatorDrawableHeight / 2
+
     private val scrollListener by lazy {
         object : RecyclerView.OnScrollListener() {
 
@@ -113,9 +116,8 @@ class IndicatorView @JvmOverloads constructor(
 
         val offset = 60
         var left = when {
-            completeVisiblePosition == OFFSET -> (indicatorDrawable?.intrinsicWidth ?: 0) + offset
-            completeVisiblePosition < OFFSET -> ((indicatorDrawable?.intrinsicWidth
-                ?: 0) * 2.5f).toInt() + offset
+            completeVisiblePosition == OFFSET -> indicatorGap + offset
+            completeVisiblePosition < OFFSET -> indicatorGap * 2 + offset
             else -> offset
         }
 
@@ -173,7 +175,7 @@ class IndicatorView @JvmOverloads constructor(
             }
 
             drawIndicator.draw(canvas)
-            left += (width * 1.5).toInt()
+            left += width + indicatorGap
         }
     }
 
