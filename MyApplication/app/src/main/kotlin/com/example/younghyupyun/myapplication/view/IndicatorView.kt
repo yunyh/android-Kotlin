@@ -200,9 +200,9 @@ class IndicatorView @JvmOverloads constructor(
                 drawIndex == completeVisiblePosition - OFFSET - 1 -> indicatorDrawableSmall
                 drawIndex <= (completeVisiblePosition - OFFSET - 2) -> return null
 
-                drawIndex == completeVisiblePosition + OFFSET - 1 -> indicatorDrawableMedium
-                drawIndex == completeVisiblePosition + OFFSET -> indicatorDrawableSmall
-                drawIndex >= (completeVisiblePosition + OFFSET + 1) -> return null
+                drawIndex == completeVisiblePosition + OFFSET - 2 -> indicatorDrawableMedium
+                drawIndex == completeVisiblePosition + OFFSET - 1 -> indicatorDrawableSmall
+                drawIndex >= (completeVisiblePosition + OFFSET) -> return null
                 else -> indicatorDrawable
             }
         }
