@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
 import com.base.yun.mytestapp.databinding.ActivityMainBinding
 import com.base.yun.mytestapp.fragment.ListFragment
@@ -28,9 +26,7 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding.model = ViewModelProviders.of(this).get(MainActivityViewModel::class.java).apply {
-            getService()
-        }
+        binding.model = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
         setSupportActionBar(binding.mainToolbar)
         supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, ListFragment())?.commitNow()
 

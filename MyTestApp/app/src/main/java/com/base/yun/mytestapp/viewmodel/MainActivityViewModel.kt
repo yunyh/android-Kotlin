@@ -3,6 +3,7 @@ package com.base.yun.mytestapp.viewmodel
 import android.util.Log
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.base.yun.mytestapp.BuildConfig
@@ -18,23 +19,24 @@ import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 
-class MainActivityViewModel : ViewModel(), CoroutineScope {
+class MainActivityViewModel(
+        private val gitRepo: GithubRepository = GithubRepository()) : ViewModel(), CoroutineScope {
+
+    companion object {
+        const val TAG = "MainActivityViewModel"
+    }
 
     private val job = Job()
 
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main + job
 
-    companion object {
-        const val TAG = "MainActivityViewModel"
-    }
-
     val id = ObservableField<String>()
-    val eventsLiveData = MutableLiveData<List<GitHubEventsModel>>()
+    private val _eventsLiveData = MutableLiveData<List<GitHubEventsModel>>()
+    val eventsLiveData: LiveData<List<GitHubEventsModel>>
+        get() = _eventsLiveData
 
     val loadingProgressBar = ObservableBoolean(false)
-
-    private val gitRepo = GithubRepository()
 
     override fun onCleared() {
         job.cancel()
@@ -56,14 +58,10 @@ class MainActivityViewModel : ViewModel(), CoroutineScope {
 
     fun getReceivedEvents(username: String) = launch {
         loadingProgressBar.set(true)
-        /* gitRepo.getReceivedEvents(username).run {
-             eventsLiveData.postValue(this)
-         }*/
-        loadingProgressBar.set(false)
-        gitRepo.getReceivedEvents(username).onSuccess {
-            Log.d(TAG, "onSuccess")
-            eventsLiveData.postValue(it)
-        }.onFailure { Log.d(TAG, "onFailure") }.onError { it.printStackTrace() }
+        gitRepo.getReceivedEvents(username)
+                .onSuccess(_eventsLiveData::postValue)
+                .onFailure { Log.d(TAG, "onFailure") }
+                .onError { it.printStackTrace() }
         Log.d(TAG, "loadingProgressBar")
         loadingProgressBar.set(false)
     }

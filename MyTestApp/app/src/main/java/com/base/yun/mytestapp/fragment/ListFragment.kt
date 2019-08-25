@@ -11,7 +11,6 @@ import com.base.yun.mytestapp.R
 import com.base.yun.mytestapp.adapter.MyAdapter
 import com.base.yun.mytestapp.viewmodel.MainActivityViewModel
 import kotlinx.android.synthetic.main.fragment_list.*
-import kotlinx.android.synthetic.main.fragment_list.view.*
 
 /**
  * Created by YounghyubYun on 2017. 10. 4..
@@ -25,7 +24,6 @@ class ListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
