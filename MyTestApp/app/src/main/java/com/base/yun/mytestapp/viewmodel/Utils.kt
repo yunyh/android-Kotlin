@@ -1,6 +1,7 @@
 package com.base.yun.mytestapp.viewmodel
 
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 
@@ -34,11 +35,11 @@ class SynchronizedViewModelLazy<out T>(private val initializer: (() -> T)?, lock
     private object UNINIT_VIEWMODEL
 }
 
-inline fun <reified T : ViewModel> AppCompatActivity.viewModels(noinline initializer: (() -> T)? = null): Lazy<T> {
-    val provider: () -> T = initializer ?: {
+inline fun <reified T : ViewModel> FragmentActivity.viewModels(noinline providers: (() -> T)? = null): Lazy<T> {
+    val provider: () -> T = providers ?: {
         ViewModelProviders.of(this)[T::class.java]
     }
     return SynchronizedViewModelLazy(provider)
 }
 
-
+inline fun <reified T : ViewModel> Fragment.viewModels(noinline providers: (() -> T)? = null) = requireActivity().viewModels(providers)
