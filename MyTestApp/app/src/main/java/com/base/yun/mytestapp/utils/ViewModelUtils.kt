@@ -1,4 +1,4 @@
-package com.base.yun.mytestapp.viewmodel
+package com.base.yun.mytestapp.utils
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -35,11 +35,16 @@ class SynchronizedViewModelLazy<out T>(private val initializer: (() -> T)?, lock
     private object UNINIT_VIEWMODEL
 }
 
-inline fun <reified T : ViewModel> FragmentActivity.viewModels(noinline providers: (() -> T)? = null): Lazy<T> {
+inline fun <reified T : ViewModel> FragmentActivity.provideViewModel(noinline providers: (() -> T)? = null): Lazy<T> {
     val provider: () -> T = providers ?: {
         ViewModelProviders.of(this)[T::class.java]
     }
     return SynchronizedViewModelLazy(provider)
 }
 
-inline fun <reified T : ViewModel> Fragment.viewModels(noinline providers: (() -> T)? = null) = requireActivity().viewModels(providers)
+inline fun <reified T : ViewModel> Fragment.viewModels(noinline providers: (() -> T)? = null): Lazy<T> {
+    val provider: () -> T = providers ?: {
+        ViewModelProviders.of(requireActivity())[T::class.java]
+    }
+    return SynchronizedViewModelLazy(provider)
+}

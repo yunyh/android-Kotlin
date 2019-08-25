@@ -5,12 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import androidx.databinding.DataBindingUtil
 import com.base.yun.mytestapp.databinding.ActivityMainBinding
 import com.base.yun.mytestapp.fragment.ListFragment
 import com.base.yun.mytestapp.lifecycle.ActivityLifecycleObserver
+import com.base.yun.mytestapp.utils.bindingView
+import com.base.yun.mytestapp.utils.provideViewModel
 import com.base.yun.mytestapp.viewmodel.MainActivityViewModel
-import com.base.yun.mytestapp.viewmodel.viewModels
 
 class MainActivity : BaseActivity() {
 
@@ -20,20 +20,16 @@ class MainActivity : BaseActivity() {
 
     private val lifeCycleObserver = ActivityLifecycleObserver()
 
-    private val binding: ActivityMainBinding by lazy {
-        DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
-    }
+    private val binding: ActivityMainBinding by bindingView(R.layout.activity_main)
 
-    private val viewModel: MainActivityViewModel by viewModels()
+    private val viewModel: MainActivityViewModel by provideViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.model = viewModel
         Log.d(TAG, viewModel.toString())
-        //ViewModelProviders.of(this)[MainActivityViewModel::class.java]
         setSupportActionBar(binding.mainToolbar)
         supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, ListFragment())?.commitNow()
-
     }
 
     override fun onDestroy() {
