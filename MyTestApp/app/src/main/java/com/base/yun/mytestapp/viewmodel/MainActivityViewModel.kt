@@ -7,12 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.base.yun.mytestapp.BuildConfig
 import com.base.yun.mytestapp.model.GitHubEventsModel
-import com.base.yun.mytestapp.module.retrofit.RetrofitApiWrapper
 import com.base.yun.mytestapp.module.retrofit.wrapper.onError
 import com.base.yun.mytestapp.module.retrofit.wrapper.onFailure
 import com.base.yun.mytestapp.module.retrofit.wrapper.onSuccess
 import com.base.yun.mytestapp.repositories.GithubRepository
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 
@@ -39,13 +41,12 @@ class MainActivityViewModel : ViewModel(), CoroutineScope {
         super.onCleared()
     }
 
-    fun getService() = launch(coroutineContext) {
+    fun getService() = launch {
         val result = gitRepo.getService()
         result.onSuccess {
             id.set(it.id.toString())
             Log.d(TAG, "${it.id}")
         }.onFailure {
-
         }.onError {
             if (BuildConfig.DEBUG) {
                 it.printStackTrace()
@@ -53,12 +54,16 @@ class MainActivityViewModel : ViewModel(), CoroutineScope {
         }
     }
 
-    fun getReceivedEvents(username: String) = launch(coroutineContext) {
+    fun getReceivedEvents(username: String) = launch {
         loadingProgressBar.set(true)
+        /* gitRepo.getReceivedEvents(username).run {
+             eventsLiveData.postValue(this)
+         }*/
+        loadingProgressBar.set(false)
         gitRepo.getReceivedEvents(username).onSuccess {
             Log.d(TAG, "onSuccess")
             eventsLiveData.postValue(it)
-        }.onError { it.printStackTrace() }
+        }.onFailure { Log.d(TAG, "onFailure") }.onError { it.printStackTrace() }
         Log.d(TAG, "loadingProgressBar")
         loadingProgressBar.set(false)
     }

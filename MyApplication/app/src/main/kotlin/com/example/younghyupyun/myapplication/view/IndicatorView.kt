@@ -34,6 +34,7 @@ class IndicatorView @JvmOverloads constructor(
     private val itemCount: Int
         get() = recyclerViewAdapter?.itemCount ?: 0
 
+
     private val indicatorDrawableHeight
         get() = indicatorDrawable?.intrinsicHeight ?: 0
 
@@ -58,26 +59,28 @@ class IndicatorView @JvmOverloads constructor(
     private var swipeDirection: Int = 1
     private var currentDirection: Int = 1
 
+    //  private val dotsManager: DotsManager
+
     private val scrollListener by lazy {
         object : RecyclerView.OnScrollListener() {
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                swipeDirection = when {
+                /*swipeDirection = when {
                     dx > 0 -> 1
                     dx < 0 -> -1
                     else -> 1
-                }
+                }*/
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    (recyclerView.layoutManager as? LinearLayoutManager)?.apply {
-                        previousVisiblePosition = completeVisiblePosition
-                        completeVisiblePosition = findFirstCompletelyVisibleItemPosition()
-                    }
-                    invalidate()
+                    /* (recyclerView.layoutManager as? LinearLayoutManager)?.apply {
+                         previousVisiblePosition = completeVisiblePosition
+                         completeVisiblePosition = findFirstCompletelyVisibleItemPosition()
+                     }
+                     invalidate()*/
                 }
             }
         }
@@ -118,6 +121,11 @@ class IndicatorView @JvmOverloads constructor(
     }
 
     private var recyclerViewAdapter: RecyclerView.Adapter<out RecyclerView.ViewHolder>? = null
+
+
+    init {
+        //dotsManager = DotsManager(10, indicatorDrawableHeight, indicatorGap)
+    }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
@@ -195,10 +203,43 @@ class IndicatorView @JvmOverloads constructor(
         else -> indicatorDrawable
     }
 
+    private var needRolling = false
     private fun getIndicator(drawIndex: Int): Drawable? {
 
         if (swipeDirection < 0) {
-            return when {
+            if ((itemCount - 1 - completeVisiblePosition) < 3) {
+                needRolling = false
+                return when (itemCount - drawIndex - 1) {
+                    0, 1, 2 -> if (drawIndex == completeVisiblePosition) indicatorDrawableSelected else indicatorDrawable
+                    3 -> indicatorDrawableMedium
+                    4 -> indicatorDrawableSmall
+                    else -> null
+                }
+            }
+
+            if (completeVisiblePosition < 3 && needRolling.not()) {
+                needRolling = false
+                return when (drawIndex) {
+                    0, 1, 2 -> if (drawIndex == completeVisiblePosition) indicatorDrawableSelected else indicatorDrawable
+                    completeVisiblePosition + 3 -> indicatorDrawableMedium
+                    completeVisiblePosition + 4 -> indicatorDrawableSmall
+                    else -> null
+                }
+            }
+
+            if ((itemCount - 1 - completeVisiblePosition) >= 3) {
+                needRolling = completeVisiblePosition == 1
+                return when (drawIndex) {
+                    completeVisiblePosition, completeVisiblePosition + 1, completeVisiblePosition + 2 -> if (drawIndex == completeVisiblePosition) indicatorDrawableSelected else indicatorDrawable
+                    completeVisiblePosition + 3 -> indicatorDrawableMedium
+                    completeVisiblePosition + 4 -> indicatorDrawableSmall
+                    completeVisiblePosition - 1 -> indicatorDrawableMedium
+                    completeVisiblePosition - 2 -> indicatorDrawableSmall
+                    else -> null
+                }
+            }
+            return null
+            /*return when {
                 completeVisiblePosition == 0 -> when {
                     drawIndex == completeVisiblePosition -> indicatorDrawableSelected
                     drawIndex == OFFSET -> indicatorDrawableMedium
@@ -226,9 +267,45 @@ class IndicatorView @JvmOverloads constructor(
                     drawIndex >= (completeVisiblePosition + OFFSET) -> return null
                     else -> indicatorDrawable
                 }
-            }
+            }*/
         } else {
-            if (previousVisiblePosition >= itemCount - OFFSET) {
+            if (completeVisiblePosition < 3 && needRolling.not()) {
+                needRolling = false
+                return when (drawIndex) {
+                    0, 1, 2 -> if (drawIndex == completeVisiblePosition) indicatorDrawableSelected else indicatorDrawable
+                    completeVisiblePosition + 3 -> indicatorDrawableMedium
+                    completeVisiblePosition + 4 -> indicatorDrawableSmall
+                    else -> null
+                }
+            }
+
+            if (completeVisiblePosition >= 3 || needRolling) {
+                needRolling = (completeVisiblePosition == 1).not()
+                return when (drawIndex) {
+                    completeVisiblePosition, completeVisiblePosition - 1, completeVisiblePosition - 2 -> if (drawIndex == completeVisiblePosition) indicatorDrawableSelected else indicatorDrawable
+                    completeVisiblePosition - 3 -> indicatorDrawableMedium
+                    completeVisiblePosition - 4 -> indicatorDrawableSmall
+                    completeVisiblePosition + 1 -> indicatorDrawableMedium
+                    completeVisiblePosition + 2 -> indicatorDrawableSmall
+                    else -> null
+                }
+            }
+
+            return null
+            /*else {
+                return when (drawIndex) {
+                    completeVisiblePosition - 2 -> indicatorDrawableSmall
+                    completeVisiblePosition - 1 -> indicatorDrawableMedium
+                    completeVisiblePosition -> indicatorDrawableSelected
+                    completeVisiblePosition + 1 -> indicatorDrawable
+                    completeVisiblePosition + 2 -> indicatorDrawable
+                    completeVisiblePosition + 3 -> indicatorDrawableMedium
+                    completeVisiblePosition + 4 -> indicatorDrawableSmall
+                    else -> null
+                }
+            }
+*/
+            /*if (previousVisiblePosition >= itemCount - OFFSET) {
                 return lastedDrawable(drawIndex)
             }
             return when {
@@ -257,7 +334,7 @@ class IndicatorView @JvmOverloads constructor(
                     drawIndex >= (completeVisiblePosition + OFFSET) -> return null
                     else -> indicatorDrawable
                 }
-            }
+            }*/
         }
     }
 

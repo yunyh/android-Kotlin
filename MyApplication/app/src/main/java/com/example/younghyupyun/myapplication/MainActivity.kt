@@ -31,7 +31,7 @@ class MainActivity : BaseActivity<MainViewModel, MainViewModel.MainActivityUi>()
         button.setOnClickListener { viewModel.testSnackbar() }
         list_view.adapter = BaseRecyclerView()
         list_view.layoutManager = LinearLayoutManager(baseContext, RecyclerView.HORIZONTAL, false)
-        indicator_view.attachRecyclerView(list_view)
+       // indicator_view.attachRecyclerView(list_view)
         PagerSnapHelper().attachToRecyclerView(list_view)
     }
 

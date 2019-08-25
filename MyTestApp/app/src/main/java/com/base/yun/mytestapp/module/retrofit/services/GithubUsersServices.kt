@@ -3,6 +3,7 @@ package com.base.yun.mytestapp.module.retrofit.services
 import com.base.yun.mytestapp.model.GitHubEventsModel
 import com.base.yun.mytestapp.module.retrofit.RetrofitApiWrapper
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -22,4 +23,7 @@ interface GithubUsersServices {
 
     @GET("/users/{user}/events")
     fun getUsersEvents(@Path("user") user: String): Call<List<GitHubEventsModel>>
+
+    @GET("/users/{user}/events")
+    suspend fun getUsersEventsAsync(@Path("user") user: String): Response<List<GitHubEventsModel>>
 }
