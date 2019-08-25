@@ -27,38 +27,33 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.model = viewModel
-        Log.d(TAG, viewModel.toString())
         setSupportActionBar(binding.mainToolbar)
         supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container, ListFragment())?.commitNow()
     }
 
     override fun onDestroy() {
-        Log.d(TAG, viewModel.toString())
         lifecycle.removeObserver(lifeCycleObserver)
         super.onDestroy()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        Log.d(TAG, viewModel.toString())
-        menu?.let {
+        return menu?.let {
             menuInflater.inflate(R.menu.main_menu, it)
-            return true
-        }
-        return false
+            true
+        } ?: false
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         Log.d(TAG, viewModel.toString())
-        item?.let {
+        return item?.let {
             when (item.itemId) {
                 R.id.main_menu_item_create -> {
                     Log.d(TAG, "Main menu onClick")
                     startCreateItem()
                 }
             }
-            return true
-        }
-        return false
+            true
+        } ?: false
     }
 
     private fun startCreateItem() {
