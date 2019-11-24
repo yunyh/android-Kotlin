@@ -12,4 +12,3 @@ fun <T : ViewDataBinding> FragmentActivity.bindingView(@LayoutRes layoutResId: I
     val initializer: () -> T = { bindingContentView(layoutResId) }
     return SynchronizedViewModelLazy(initializer)
 }
-
