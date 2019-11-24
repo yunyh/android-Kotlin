@@ -4,14 +4,12 @@ package com.base.yun.mytestapp.fragment
 import android.app.DatePickerDialog
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.core.widget.NestedScrollView
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.view.*
-import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.NestedScrollView
+import androidx.fragment.app.Fragment
 import com.base.yun.mytestapp.R
 import com.base.yun.mytestapp.fragment.base.BaseFragment
 import com.base.yun.mytestapp.viewmodel.scheduledata.ScheduleViewModel
@@ -120,7 +118,8 @@ class CreateScheduleFragment : BaseFragment<ScheduleViewModel>() {
             val year = Calendar.getInstance().get(Calendar.YEAR)
             val month = Calendar.getInstance().get(Calendar.MONTH)
             val dayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-            val datePickerDialog = DatePickerDialog(context, this.datePickerDialog, year, month, dayOfMonth)
+            val datePickerDialog = DatePickerDialog(context
+                    ?: return@setOnClickListener, this.datePickerDialog, year, month, dayOfMonth)
             datePickerDialog.show()
         }
     }
@@ -129,27 +128,27 @@ class CreateScheduleFragment : BaseFragment<ScheduleViewModel>() {
         fragment_create_date.text = viewModel.setChangedTime(year, month, dayOfMonth)
     }
 
-  /*  private fun scroll() {
+    /*  private fun scroll() {
 
-        val imm: InputMethodManager? = activity!!
-                .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm?.let {
-            if (imm.isAcceptingText) {
-                Log.d(TAG, "Software Keyboard was shown")
-                with(scroll) {
-                    isSmoothScrollingEnabled = true
-                    fragment_create_scroll_view.postDelayed({
-                        with(fragment_create_scroll_view) {
-                            scrollTo(0, fragment_create_test_button.bottom)
-                        }
-                    }, 200L)
-                    return@let
-                }
-            } else {
-                Log.d(TAG, "Software Keyboard was not shown")
-            }
-        }
-    }*/
+          val imm: InputMethodManager? = activity!!
+                  .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+          imm?.let {
+              if (imm.isAcceptingText) {
+                  Log.d(TAG, "Software Keyboard was shown")
+                  with(scroll) {
+                      isSmoothScrollingEnabled = true
+                      fragment_create_scroll_view.postDelayed({
+                          with(fragment_create_scroll_view) {
+                              scrollTo(0, fragment_create_test_button.bottom)
+                          }
+                      }, 200L)
+                      return@let
+                  }
+              } else {
+                  Log.d(TAG, "Software Keyboard was not shown")
+              }
+          }
+      }*/
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)

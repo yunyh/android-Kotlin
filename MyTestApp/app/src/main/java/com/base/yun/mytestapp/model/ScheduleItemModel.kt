@@ -10,7 +10,7 @@ data class ScheduleItemModel(override var id: Int, override var data: String?, p
     constructor(parcel: Parcel) : this(parcel.readInt(),
             parcel.readString(),
             parcel.readLong(),
-            parcel.readString())
+            parcel.readString() ?: "")
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         super.writeToParcel(parcel, flags)
