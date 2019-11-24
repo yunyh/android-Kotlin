@@ -38,7 +38,7 @@ class ListFragment : Fragment() {
                 setOnAddAmountClickListener {
                     Log.d(TAG, "setOnAddAmountClickListener")
                     amount_input.text.toString().toDoubleOrNull()?.let {
-                        priceList.addItem(PriceSelectorItemViewModel.ViewModel("Set", it))
+                        priceList.addManualItem(PriceSelectorItemViewModel.ViewModel("Set", it))
                         amount_input.text = null
                     }
                 }
@@ -49,7 +49,7 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         repo_list.adapter = myAdapter
-        price_list.setList(arrayListOf(PriceSelectorItemViewModel.ViewModel("1st installment", 100.0),
+        price_list.setPresetItems(arrayListOf(PriceSelectorItemViewModel.ViewModel("1st installment", 100.0),
                 PriceSelectorItemViewModel.ViewModel("All received", 500.0),
                 PriceSelectorItemViewModel.ViewModel("Not Received", 0.0)))
         price_list.setOnItemClickListener {
