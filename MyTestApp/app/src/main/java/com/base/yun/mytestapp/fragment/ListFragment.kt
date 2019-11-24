@@ -42,10 +42,6 @@ class ListFragment : Fragment() {
                         amount_input.text = null
                     }
                 }
-                setOnItemClickListener {
-                    val currency = 1000.0
-                    Log.d(TAG, "${currency + it}")
-                }
             }
         }.root
     }
@@ -53,9 +49,12 @@ class ListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         repo_list.adapter = myAdapter
-        /*repo_list.adapter = myAdapter
-        viewModel.eventsLiveData.observe(this@ListFragment, Observer(myAdapter::submitList))
-        viewModel.getReceivedEvents("yunyh")*/
-        price_list.setList()
+        price_list.setList(arrayListOf(PriceSelectorItemViewModel.ViewModel("1st installment", 100.0),
+                PriceSelectorItemViewModel.ViewModel("All received", 500.0),
+                PriceSelectorItemViewModel.ViewModel("Not Received", 0.0)))
+        price_list.setOnItemClickListener {
+            val currency = 1000.0
+            Log.d(TAG, "${currency + it}")
+        }
     }
 }

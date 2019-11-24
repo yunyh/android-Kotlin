@@ -6,15 +6,11 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.base.yun.mytestapp.R
 import com.base.yun.mytestapp.databinding.LayoutSelectItemViewBinding
-import kotlin.math.max
 
 class PriceSelectListLinearLayout @JvmOverloads constructor(
         context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
 
-
-    private var presetList = ArrayList<SelectViewHolder>()
-    private var manualViewholder: SelectViewHolder? = null
     private val addPriceButtonView by lazy {
         LayoutInflater.from(context).inflate(R.layout.layout_select_item_add_button, this, false).apply {
             setOnClickListener {
@@ -29,12 +25,14 @@ class PriceSelectListLinearLayout @JvmOverloads constructor(
             LayoutSelectItemViewBinding.inflate(LayoutInflater.from(it), this, false)
         }
 
+    private val presetList = ArrayList<SelectViewHolder>()
+    private var manualViewHolder: SelectViewHolder? = null
+    private val selectedViewHolder
+        get() = presetList.getOrNull(selectIndex) ?: manualViewHolder
 
     private var selectIndex = 0
     private val manualSelectIndex
         get() = presetList.lastIndex + 1
-    private val lastChildIndex
-        get() = max(0, childCount - 1)
 
     private lateinit var itemClick: () -> Unit
     private lateinit var amountClick: (amount: Double) -> Unit
@@ -46,63 +44,58 @@ class PriceSelectListLinearLayout @JvmOverloads constructor(
         }
     }
 
-    fun setList() {
+    fun setList(preset: List<PriceSelectorItemViewModel.ViewModel>) {
         removeAllViews()
-        arrayListOf(PriceSelectorItemViewModel.ViewModel("1st installment", 100.0),
-                PriceSelectorItemViewModel.ViewModel("All received", 500.0),
-                PriceSelectorItemViewModel.ViewModel("Not Received", 0.0))
-                .mapIndexedNotNullTo(presetList) { index, model ->
-                    //  presetList.addAll(it)
-                    childBinding?.let { binding ->
-                        SelectViewHolder.viewModel(binding, model).apply {
-                            addView(root)
-                            root.setOnClickListener {
-                                internalItemClick(index, model)
-                            }
-                        }
+        preset.mapIndexedNotNullTo(presetList) { index, model ->
+            childBinding?.let { binding ->
+                SelectViewHolder.viewModel(binding, model).apply {
+                    root.setOnClickListener {
+                        internalItemClick(index)
                     }
+                }.also {
+                    addView(it.root)
                 }
-        internalItemClick(selectIndex, presetList[selectIndex])
+            }
+        }
+        internalItemClick(selectIndex)
         addView(addPriceButtonView)
     }
 
     fun addItem(model: PriceSelectorItemViewModel) {
         presetList.find { it.amount == model.amount }?.let {
-            internalItemClick(presetList.indexOf(it), model)
-            /* presetList.getOrNull(selectIndex)?.unSelected() ?: manualViewholder?.unSelected()
-             selectIndex = presetList.indexOf(it)
-             it.selected()*/
+            internalItemClick(presetList.indexOf(it))
         } ?: addManualPrice(model)
     }
 
     private fun addManualPrice(model: PriceSelectorItemViewModel) {
-        // presetList.getOrNull(selectIndex)?.unSelected()
-        manualViewholder?.run {
+        manualViewHolder?.run {
             removeView(root)
         }
-
-        addView(SelectViewHolder.viewModel(childBinding ?: return, model).apply {
-            selected()
+        SelectViewHolder.viewModel(childBinding ?: return, model).apply {
             root.setOnClickListener {
-                internalItemClick(manualSelectIndex, model)
+                internalItemClick(manualSelectIndex)
             }
         }.also {
-            manualViewholder = it
-            internalItemClick(manualSelectIndex, model)
-        }.root, lastChildIndex)
+            manualViewHolder = it
+            internalItemClick(manualSelectIndex)
+            addView(it.root, manualSelectIndex)
+        }
         invalidate()
     }
 
-    private fun internalItemClick(index: Int, model: PriceSelectorItemViewModel) {
+    private fun internalItemClick(index: Int) {
         if (index == -1) {
             return
         }
 
-        presetList.getOrNull(selectIndex)?.unSelected() ?: manualViewholder?.unSelected()
+        presetList.getOrNull(selectIndex)?.unSelected() ?: manualViewHolder?.unSelected()
         selectIndex = index
-        presetList.getOrNull(selectIndex)?.selected() ?: manualViewholder?.selected()
-        if (::itemClick.isInitialized) {
-            amountClick(model.amount)
+
+        selectedViewHolder?.run {
+            selected()
+            if (::amountClick.isInitialized) {
+                amountClick(amount)
+            }
         }
     }
 
@@ -112,7 +105,7 @@ class PriceSelectListLinearLayout @JvmOverloads constructor(
 
     fun setOnItemClickListener(callback: (amount: Double) -> Unit) {
         amountClick = callback
-        //  amountClick(presetList.getOrNull(selectIndex)?.amount ?: manualViewholder?.amount ?: return)
+        internalItemClick(selectIndex)
     }
 
     private class SelectViewHolder private constructor(private val binding: LayoutSelectItemViewBinding,
