@@ -1,0 +1,7 @@
+<resources>
+    <dimen name="activity_horizontal_margin">14.22dp</dimen>
+    <dimen name="activity_vertical_margin">14.22dp</dimen>
+    <dimen name="fragment_horizontal_margin">14.22dp</dimen>
+    <dimen name="fragment_vertical_margin">14.22dp</dimen>
+    <dimen name="list_item_height">42.67dp</dimen>
+</resources>
